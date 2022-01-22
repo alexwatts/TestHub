@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>Test Hub</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="">
+<style>
+</style>
+<script>
+    function callService() {
+        var json;
+        uri = "reports/";
+
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = "json";
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                json = xhr.response;
+                loadData(json);
+             }
+        };
+
+        xhr.open("GET", uri, true);
+
+        xhr.send(null);
+    }
+
+    async function loadData(json) {
+        var selector = "results";
+
+        jsonToTable(json, selector);
+
+        function jsonToTable(json, selector) {
+            var html = [];
+
+            html.push("<table>\n<tbody>");
+
+            html.push("<tr>");
+
+            html.push("<td>" + "Test" + "</td>");
+            json.rows[0].columns.forEach(function (item) {
+                html.push("<td>" + item.display + "</td>");
+            })
+
+            html.push("</tr>");
+
+            console.log(json);
+
+            json.rows.slice(1).forEach(function (item) {
+
+                html.push("<tr>");
+
+                html.push("<td>" + item.name + "</td>");
+
+                item.columns.forEach(function (item) {
+                    html.push("<td>" + item.display + "</td>");
+                })
+
+                html.push("</tr>");
+            });
+
+            html.push("<table>\n</tbody>");
+
+            document.getElementById(selector).innerHTML = html.join("");
+        }
+    }
+
+    callService();
+</script>
+<body>
+
+<div class="">
+    <h1>TestHub</h1>
+    <p id="results"></p>
+</div>
+
+</body>
+</html>
