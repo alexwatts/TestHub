@@ -8,6 +8,7 @@ import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
 import java.time.Instant
+import java.util.stream.Collectors
 import kotlin.text.Charsets.UTF_8
 
 @Repository
@@ -26,7 +27,7 @@ class VolumeBasedReportRepository(
             .filter { !Files.isDirectory(it) }
             .map { toReport(it.toFile()) }
             .filter { it.time.isBefore(before) }
-            .toList()
+            .collect(Collectors.toList())
             .groupBy { it.partition }
     }
 
@@ -35,7 +36,7 @@ class VolumeBasedReportRepository(
             .filter { !Files.isDirectory(it) }
             .map { toReport(it.toFile()) }
             .filter { it.time.isAfter(before) }
-            .toList()
+            .collect(Collectors.toList())
             .groupBy { it.partition }
     }
 
