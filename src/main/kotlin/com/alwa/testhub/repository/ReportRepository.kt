@@ -6,6 +6,6 @@ import java.time.Instant
 interface ReportRepository {
     fun create(reportData: ReportData)
     fun getBefore(before: Instant): Map<String, List<ReportData>>
-    fun getAfter(before: Instant): Map<String, List<ReportData>>
+    fun getAfter(after: Instant): Map<String, List<ReportData>>
     fun delete(partition: String)
 }

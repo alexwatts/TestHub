@@ -23,29 +23,27 @@ class VolumeBasedReportRepository(
     }
 
     override fun getBefore(before: Instant): Map<String, List<ReportData>> {
-        return Files.walk(Path.of(rootPath))
-            .filter { !Files.isDirectory(it) }
-            .map { toReport(it.toFile()) }
-            .filter { it.time.isBefore(before) }
-            .collect(Collectors.toList())
-            .groupBy { it.partition }
+        return getReportsFiltered { it.time.isBefore(before) }
     }
 
-    override fun getAfter(before: Instant): Map<String, List<ReportData>> {
-        return Files.walk(Path.of(rootPath))
-            .filter { !Files.isDirectory(it) }
-            .map { toReport(it.toFile()) }
-            .filter { it.time.isAfter(before) }
-            .collect(Collectors.toList())
-            .groupBy { it.partition }
+    override fun getAfter(after: Instant): Map<String, List<ReportData>> {
+        return getReportsFiltered { it.time.isAfter(after) }
     }
 
     override fun delete(partition: String) {
         Files.walk(Path.of("$rootPath/$partition"))
             .sorted(Comparator.reverseOrder())
             .map(Path::toFile)
-            .forEach(File::delete);
+            .forEach(File::delete)
     }
+
+    private fun getReportsFiltered(filter: (ReportData) -> (Boolean)) =
+        Files.walk(Path.of(rootPath))
+            .filter { !Files.isDirectory(it) }
+            .map { it.toFile().toReport() }
+            .filter { filter(it) }
+            .collect(Collectors.toList())
+            .groupBy { it.partition }
 
     private fun getReportDirectory(partition: String) = "$rootPath/$partition"
 
@@ -58,11 +56,11 @@ class VolumeBasedReportRepository(
             report.toByteArray()
         )
 
-    private fun toReport(file: File) =
+    private fun File.toReport() =
         ReportData(
-            Instant.parse(file.name),
-            file.readText(UTF_8),
-            file.lastPathPart()
+            Instant.parse(this.name),
+            this.readText(UTF_8),
+            this.lastPathPart()
         )
 
     private fun File.lastPathPart() =

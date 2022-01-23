@@ -8,7 +8,9 @@ import org.junit.jupiter.api.Test
 import java.time.Instant
 
 class VolumeBasedReportRepositoryTest {
-    val subject: VolumeBasedReportRepository = VolumeBasedReportRepository("results")
+    val subject: VolumeBasedReportRepository =
+        VolumeBasedReportRepository(
+            System.getProperty("java.io.tmpdir") + "/results")
 
     val partition = "testPartition"
     val now = Instant.parse("2020-05-20T09:00:00Z")
