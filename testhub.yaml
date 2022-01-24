@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: testhub-set
+spec:
+  replicas: 1
+  serviceName: "testhub"
+  selector:
+    matchLabels:
+      app: testhub
+  template:
+    metadata:
+      labels:
+        app: testhub
+    spec:
+      containers:
+        - name: testhub
+          image: registry.digitalocean.com/do-k8s-ecr/test-hub
+          ports:
+            - name: http-port
+              containerPort: 8080
+          volumeMounts:
+            - name: testhub-pvc
+              mountPath: /var/results
+      initContainers:
+        - name: testhub-data-permission-fix
+          image: busybox
+          command: [ "/bin/chmod","-R","777", "/var/results" ]
+          volumeMounts:
+            - name: testhub-pvc
+              mountPath: /var/results
+  volumeClaimTemplates:
+    - metadata:
+        name: testhub-pvc
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 5Gi
+        storageClassName: do-block-storage
