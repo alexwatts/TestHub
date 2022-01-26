@@ -10,12 +10,10 @@ import styles from './Result.module.css';
 export function Results() {
   const results = useAppSelector(selectResults);
   const dispatch = useAppDispatch();
-  const [incrementAmount, setIncrementAmount] = useState('2');
-  const incrementValue = Number(incrementAmount) || 0;
 
   useEffect(() => {
     dispatch(fetchAsync())
-  }, [])
+  }, [dispatch])
 
   return (
     <div>
