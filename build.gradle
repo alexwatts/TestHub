@@ -12,7 +12,9 @@ repositories {
 }
 
 processResources {
-    expand(project.properties)
+    filesMatching("*.properties") {
+        expand project.properties
+    }
 }
 
 java {
