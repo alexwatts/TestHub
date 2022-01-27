@@ -26,9 +26,9 @@ export function Results(props: ResultProps) {
                 .map(function(row, idx) {
                     return (
                         <RowComponent
+                            key={idx}
                             name={row.name}
-                            columns={row.columns}
-                            index={idx}/>
+                            columns={row.columns}/>
                     )
                 })
             }

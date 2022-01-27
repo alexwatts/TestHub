@@ -5,21 +5,17 @@ import {ColumnComponent} from "./ColumnComponent";
 interface RowProps {
   name: string
   columns: Column[]
-  index: number
 }
 
 export function RowComponent(props: RowProps) {
-
   return (
-    <tr key={props.index}>
-      {props.name}
+    <tr>
+      <td>{props.name}</td>
       {props.columns
           .map(function(column, idx) {
-            return (
-                <ColumnComponent
-                    display={column.display}
-                    index={idx}/>
-            )
+            return (<ColumnComponent
+                    key={idx}
+                    display={column.display}/>)
       })}
     </tr>
   );
