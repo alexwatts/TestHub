@@ -11,8 +11,6 @@ type Column = {
   display: string;
 };
 
-
-// A mock function to mimic making an async request for data
 export function fetchResults() {
   return new Promise<{ displayResult: DisplayResult }>((resolve) =>
     setTimeout(() => resolve({
@@ -28,8 +26,7 @@ export function fetchResults() {
         {
           name: "test2",
           columns: [{display: "failed"}, {display: "success"}]
-        }
-      ]
+        }]
     }
     }), 500)
   );

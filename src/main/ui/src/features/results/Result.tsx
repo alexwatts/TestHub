@@ -18,7 +18,6 @@ export function Results() {
   return (
     <div>
         <span className={styles.value}>
-
             <table>
               {results.rows.map(function(row) {
                   return (<tr>
@@ -29,9 +28,6 @@ export function Results() {
                   </tr>)
               })}
             </table>
-
-
-
         </span>
       <div className={styles.row}>
       </div>
