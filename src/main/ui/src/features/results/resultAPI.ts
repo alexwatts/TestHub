@@ -1,14 +1,15 @@
-type DisplayResult = {
+export type DisplayResult = {
   rows: Row[];
 };
 
-type Row = {
+export type Row = {
   name: string;
   columns: Column[];
 }
 
-type Column = {
+export type Column = {
   display: string;
+  key: string
 };
 
 export function fetchResults() {

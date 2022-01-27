@@ -1,14 +1,17 @@
 import React, {useEffect} from 'react';
 
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { useAppDispatch } from '../../app/hooks';
 import {
     fetchAsync,
-    selectResults,
 } from './resultSlice';
-import styles from './Result.module.css';
+import DisplayResult from "./resultAPI";
+import {RowComponent} from "./RowComponent";
 
-export function Results() {
-  const results = useAppSelector(selectResults);
+interface ResultProps {
+    results: DisplayResult;
+}
+
+export function Results(props: ResultProps) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -17,20 +20,14 @@ export function Results() {
 
   return (
     <div>
-        <span className={styles.value}>
-            <table>
+        <table>
             <tbody>
-              {results.rows.map(function(row, idx) {
-                  return (<tr key={idx}>
-                      <td key={idx}>{row.name}</td>
-                      {row.columns.map(function(column, idx){
-                          return (<td key={idx}>{column.display}</td>)
-                      })}
-                  </tr>)
-              })}
-              </tbody>
-            </table>
-        </span>
+            {props.results.rows.map(function(row) {
+                return (<RowComponent row={row}></RowComponent>)
+            })}
+            </tbody>
+        </table>
     </div>
   );
+
 }
