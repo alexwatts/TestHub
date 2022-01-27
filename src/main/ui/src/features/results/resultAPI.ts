@@ -1,16 +1,16 @@
-export type DisplayResult = {
+export interface DisplayResult {
   rows: Row[];
-};
+}
 
-export type Row = {
+export interface Row {
   name: string;
   columns: Column[];
 }
 
-export type Column = {
+export interface Column {
   display: string;
   key: string
-};
+}
 
 export function fetchResults() {
   return fetch('reports')

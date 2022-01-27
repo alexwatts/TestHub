@@ -13,8 +13,4 @@ describe('result reducer', () => {
       status: 'idle',
     });
   });
-  // it('should handle load', () => {
-  //   const actual = resultsReducer(initialState, increment());
-  //   expect(actual.value).toEqual(4);
-  // });
 });

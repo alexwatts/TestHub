@@ -1,17 +1,25 @@
-import {Row} from "./resultAPI";
+import {Column} from "./resultAPI";
 import React from "react";
 import {ColumnComponent} from "./ColumnComponent";
 
-interface RowProps extends React.Props<any>{
-  row: Row
+interface RowProps {
+  name: string
+  columns: Column[]
+  index: number
 }
 
 export function RowComponent(props: RowProps) {
+
   return (
-    <tr key={props.row.name}>
-      {props.row.name}
-      {props.row.columns.map(function(column) {
-        return (<ColumnComponent column={column}/>)
+    <tr key={props.index}>
+      {props.name}
+      {props.columns
+          .map(function(column, idx) {
+            return (
+                <ColumnComponent
+                    display={column.display}
+                    index={idx}/>
+            )
       })}
     </tr>
   );

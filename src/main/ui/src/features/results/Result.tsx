@@ -22,9 +22,16 @@ export function Results(props: ResultProps) {
     <div>
         <table>
             <tbody>
-            {props.results.rows.map(function(row) {
-                return (<RowComponent row={row}></RowComponent>)
-            })}
+            {props.results.rows
+                .map(function(row, idx) {
+                    return (
+                        <RowComponent
+                            name={row.name}
+                            columns={row.columns}
+                            index={idx}/>
+                    )
+                })
+            }
             </tbody>
         </table>
     </div>

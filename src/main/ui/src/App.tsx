@@ -1,5 +1,4 @@
 import React from 'react';
-import { Results } from './features/results/Result';
 import './App.css';
 import ResultsContainer from "./features/results/ResultsContainer";
 

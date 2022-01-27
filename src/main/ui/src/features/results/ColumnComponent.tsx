@@ -1,13 +1,14 @@
-import {Column} from "./resultAPI";
+import React from "react";
 
-interface ColumnProps extends React.Props<any>{
-  column: Column
+interface ColumnProps {
+  display: string
+  index: number
 }
 
 export function ColumnComponent(props: ColumnProps) {
   return (
-    <td>
-      {props.column.display}
+    <td key={props.index}>
+      {props.display}
     </td>
   );
 }
