@@ -1,4 +1,3 @@
-import React from 'react';
 import {connect} from 'react-redux';
 import {selectResults} from "./resultSlice";
 import {RootState} from "../../app/store";
