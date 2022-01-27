@@ -12,24 +12,14 @@ type Column = {
 };
 
 export function fetchResults() {
-  return new Promise<{ displayResult: DisplayResult }>((resolve) =>
-    setTimeout(() => resolve({
-      displayResult: {
-        rows: [{
-          name: "header",
-          columns: [{display: "15-33-54"}, {display: "16-33-54"}]
-        },
-        {
-          name: "test1",
-          columns: [{display: "success"}, {display: "failed"}]
-        },
-        {
-          name: "test2",
-          columns: [{display: "failed"}, {display: "success"}]
-        }]
-    }
-    }), 500)
-  );
+  return fetch('reports')
+      // the JSON body is taken from the response
+      .then(res => res.json())
+      .then(res => {
+        // The response has an `any` type, so we need to cast
+        // it to the `User` type, and return it from the promise
+        return res as DisplayResult
+      });
 }
 
 export default DisplayResult

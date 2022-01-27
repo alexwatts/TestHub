@@ -19,20 +19,18 @@ export function Results() {
     <div>
         <span className={styles.value}>
             <table>
-              {results.rows.map(function(row) {
-                  return (<tr>
-                      <td>{row.name}</td>
-                      {row.columns.map(function(column){
-                          return (<td>{column.display}</td>)
+            <tbody>
+              {results.rows.map(function(row, idx) {
+                  return (<tr key={idx}>
+                      <td key={idx}>{row.name}</td>
+                      {row.columns.map(function(column, idx){
+                          return (<td key={idx}>{column.display}</td>)
                       })}
                   </tr>)
               })}
+              </tbody>
             </table>
         </span>
-      <div className={styles.row}>
-      </div>
-      <div className={styles.row}>
-      </div>
     </div>
   );
 }

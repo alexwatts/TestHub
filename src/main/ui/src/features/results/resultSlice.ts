@@ -16,7 +16,7 @@ export const fetchAsync = createAsyncThunk(
   'results/fetchResults',
   async () => {
     const response = await fetchResults();
-    return response.displayResult;
+    return response;
   }
 );
 
