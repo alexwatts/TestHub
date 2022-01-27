@@ -24,7 +24,7 @@ class SimpleCucumberReportBuilderTest {
             "testPartition")
 
     val expectedTestNames = listOf("Test Example")
-    val expectedReportTime = listOf(Instant.parse("2021-11-03T15:35:12.467Z"))
+    val expectedReportTime = listOf(Instant.parse("2020-05-20T09:00:00Z"))
 
     @Test
     fun testNameIsSourcedFromReport() {
@@ -33,7 +33,7 @@ class SimpleCucumberReportBuilderTest {
     }
 
     @Test
-    fun testReportTimeIsSourcedFromReport() {
+    fun testReportTimeIsDisplayedAsSubmitted() {
         val testResults = subject.parseTestResults(reportData)
         assertThat(testResults.map { it.reportTime }.toList(), equalTo(expectedReportTime))
     }

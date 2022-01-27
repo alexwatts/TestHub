@@ -48,7 +48,7 @@ class ReportControllerIntegrationTest {
         testRestTemplate.exchange("/reports/test", HttpMethod.POST, HttpEntity(report, headers), String::class.java )
         val exchange = testRestTemplate.exchange(
             "/reports", HttpMethod.GET, HttpEntity(null, headers), object : ParameterizedTypeReference<ReportDisplay>() {})
-        assertThat(exchange.body ,equalTo(ObjectMother.displayReport("Test Example", Instant.parse("2021-11-03T15:35:12.467Z"))))
+        assertThat(exchange.body ,equalTo(ObjectMother.displayReport("Test Example", Instant.parse("2021-11-20T09:00:00Z"))))
     }
 
 }

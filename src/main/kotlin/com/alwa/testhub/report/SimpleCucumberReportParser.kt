@@ -14,7 +14,7 @@ class SimpleCucumberReportParser: ReportParser {
 
     override fun parseTestResults(reportData: ReportData): List<TestResult> {
         val tests: JSONArray = readTestNames(reportData)
-        return tests.map { TestResult(it as String, readReportTime(reportData, it), testIsSuccess(reportData, it)) }
+        return tests.map { TestResult(it as String, reportData.time, testIsSuccess(reportData, it)) }
     }
 
     private fun readTestNames(reportData: ReportData): JSONArray {
@@ -35,5 +35,6 @@ class SimpleCucumberReportParser: ReportParser {
         val reportTime: JSONArray = JsonPath.read(reportData.report, JSON_PATH_REPORT_TIME)
         return Instant.parse(reportTime.first() as String) as Instant
     }
+
 
 }
