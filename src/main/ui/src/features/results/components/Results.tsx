@@ -25,6 +25,7 @@ export function Results(props: ResultProps) {
             <Row
                 key={idx}
                 name={row.name}
+                header={idx === 0}
                 columns={row.columns}/>
         )
     }
