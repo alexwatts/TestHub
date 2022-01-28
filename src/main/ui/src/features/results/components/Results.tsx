@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
 
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch } from '../../../app/hooks';
 import {
     fetchAsync,
-} from './resultSlice';
-import DisplayResult from "./resultAPI";
-import {RowComponent} from "./RowComponent";
+} from '../store/resultSlice';
+import {Row} from "./Row";
+import { DisplayResult } from "../types";
 
 interface ResultProps {
     results: DisplayResult;
@@ -25,7 +25,7 @@ export function Results(props: ResultProps) {
             {props.results.rows
                 .map(function(row, idx) {
                     return (
-                        <RowComponent
+                        <Row
                             key={idx}
                             name={row.name}
                             columns={row.columns}/>

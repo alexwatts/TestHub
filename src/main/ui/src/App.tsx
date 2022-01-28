@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import ResultsContainer from "./features/results/ResultsContainer";
+import ResultsContainer from "./features/results/components/ResultsContainer";
 
 function App() {
   return (

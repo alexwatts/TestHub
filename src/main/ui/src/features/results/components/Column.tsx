@@ -4,7 +4,7 @@ interface ColumnProps {
   display: string
 }
 
-export function ColumnComponent(props: ColumnProps) {
+export function Column(props: ColumnProps) {
   return (
     <td>{props.display}</td>
   );

@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../../app/store';
-import DisplayResult, { fetchResults } from './resultAPI';
+import { RootState } from '../../../app/store';
+import { fetchResults } from '../resultAPI';
+import {DisplayResult} from "../types";
 
 export interface ResultsState {
   value: DisplayResult;

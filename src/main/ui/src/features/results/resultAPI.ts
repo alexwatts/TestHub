@@ -1,16 +1,5 @@
-export interface DisplayResult {
-  rows: Row[];
-}
+import {DisplayResult} from "./types";
 
-export interface Row {
-  name: string;
-  columns: Column[];
-}
-
-export interface Column {
-  display: string;
-  key: string
-}
 
 export function fetchResults() {
   return fetch('reports')
@@ -22,5 +11,3 @@ export function fetchResults() {
         return res as DisplayResult
       });
 }
-
-export default DisplayResult
