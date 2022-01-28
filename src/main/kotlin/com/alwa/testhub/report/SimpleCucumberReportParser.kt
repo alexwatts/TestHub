@@ -29,12 +29,4 @@ class SimpleCucumberReportParser: ReportParser {
         return failedTests.isEmpty()
     }
 
-    private fun readReportTime(reportData: ReportData, testName: String): Instant {
-        val JSON_PATH_REPORT_TIME =
-            "\$.[*].elements.[*].[?(@.name=='${testName}')].start_timestamp"
-        val reportTime: JSONArray = JsonPath.read(reportData.report, JSON_PATH_REPORT_TIME)
-        return Instant.parse(reportTime.first() as String) as Instant
-    }
-
-
 }
