@@ -1,4 +1,3 @@
-
 import React from "react";
 import {Column} from "./Column";
 import {ColumnData} from "../types";
@@ -26,4 +25,5 @@ export function Row(props: RowProps) {
           {props.columns.map(column)}
         </tr>
     );
+
 }

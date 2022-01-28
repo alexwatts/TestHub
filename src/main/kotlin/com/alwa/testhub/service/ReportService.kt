@@ -25,7 +25,7 @@ class ReportService(
             .flatten()
             .map { reportBuilder.parseTestResults(it) }
             .flatten()
-            .sortedByDescending { it.reportTime }
+            .sortedBy { it.reportTime }
         )
 
     fun delete(partition: String) = reportRepository.delete(partition)
