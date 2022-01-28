@@ -38,6 +38,9 @@ test {
 }
 
 task getDeps(type: Copy) {
+    from sourceSets.test.runtimeClasspath
+    into 'runtime/'
+
     from sourceSets.main.runtimeClasspath
     into 'runtime/'
 
