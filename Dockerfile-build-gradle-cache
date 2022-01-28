@@ -2,4 +2,4 @@ FROM gradle:7.3-jdk11-alpine AS gradle-cache
 WORKDIR /app
 ENV GRADLE_USER_HOME /cache
 COPY build.gradle gradle.properties settings.gradle ./
-RUN gradle --no-daemon build --stacktrace
+RUN gradle --no-daemon dependencies --stacktrace
