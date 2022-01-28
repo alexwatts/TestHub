@@ -5,36 +5,38 @@ import {
     fetchAsync,
 } from '../store/resultSlice';
 import {Row} from "./Row";
-import { DisplayResult } from "../types";
+import {DisplayResult, RowData} from "../types";
+import styles from '../Result.module.css'
 
 interface ResultProps {
     results: DisplayResult;
 }
 
 export function Results(props: ResultProps) {
-  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchAsync())
-  }, [dispatch])
+    const dispatch = useAppDispatch();
 
-  return (
-    <div>
-        <table>
-            <tbody>
-            {props.results.rows
-                .map(function(row, idx) {
-                    return (
-                        <Row
-                            key={idx}
-                            name={row.name}
-                            columns={row.columns}/>
-                    )
-                })
-            }
-            </tbody>
-        </table>
-    </div>
-  );
+    useEffect(() => {
+        dispatch(fetchAsync())
+    }, [dispatch])
+
+    const row = function (row: RowData, idx: number) {
+        return (
+            <Row
+                key={idx}
+                name={row.name}
+                columns={row.columns}/>
+        )
+    }
+
+    return (
+        <span className={styles.value}>
+            <table>
+                <tbody>
+                    {props.results.rows.map(row)}
+                </tbody>
+            </table>
+        </span>
+    );
 
 }

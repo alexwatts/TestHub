@@ -9,17 +9,19 @@ interface RowProps {
 }
 
 export function Row(props: RowProps) {
-  return (
-    <tr>
-      <td>{props.name}</td>
-      {props.columns
-          .map(function(column, idx) {
-            return (
-                <Column
-                        key={idx}
-                        display={column.display}/>
-            )
-      })}
-    </tr>
-  );
+
+    const column = function (column: ColumnData, idx: number) {
+        return (
+            <Column
+                key={idx}
+                display={column.display}/>
+        )
+    }
+
+    return (
+        <tr>
+          <td>{props.name}</td>
+          {props.columns.map(column)}
+        </tr>
+    );
 }
