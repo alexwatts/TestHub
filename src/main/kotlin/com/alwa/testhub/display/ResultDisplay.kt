@@ -16,7 +16,7 @@ class ResultDisplay {
     fun displayResults(results: List<TestResult>): ReportDisplay {
         return ReportDisplay(
             listOf(
-                    buildHeaderRow(results)
+                    buildHeaderRow(results.sortedByDescending { it.reportTime })
                   ) + buildTestRows(results),
         )
     }
@@ -26,6 +26,7 @@ class ResultDisplay {
 
     private fun buildTestRows(results: List<TestResult>) =
         results
+            .sortedByDescending { it.reportTime }
             .distinctBy { it.name }
             .map { testName ->
                         Row(
