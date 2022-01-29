@@ -15,7 +15,7 @@ export function Column(props: ColumnProps) {
     function displayHeader(display: string) {
         if (display === 'header') return ''
         const date = new Date(display);
-        return date.getDay() + '/' + date.getMonth() + 1 + '/' + date.getFullYear() + ' '
+        return date.getDate() + '/' + date.getMonth() + 1 + '/' + date.getFullYear() + ' '
             + date.getHours() + ':' + date.getMinutes();
     }
 

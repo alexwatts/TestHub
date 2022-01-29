@@ -16,6 +16,7 @@ spec:
       containers:
         - name: testhub
           image: registry.digitalocean.com/do-k8s-ecr/test-hub
+          imagePullPolicy: "Always"
           env:
             - name: JAVA_OPTS
               value: -Xmx64m

@@ -20,38 +20,11 @@ class ResultDisplayTest {
     }
 
     private fun threeTestsThreeRunsDisplay(): ReportDisplay {
-       val headerColumns =
-           listOf(
-               Column("2020-05-20T09:00:00"),
-               Column("2020-05-20T09:16:00"),
-               Column("2020-05-20T09:39:00")
-           )
 
-       val test1Columns =
-           listOf(
-               Column("passed"),
-               Column("empty"),
-               Column("failed")
-           )
-
-       val test2Columns =
-           listOf(
-               Column("failed"),
-               Column("failed"),
-               Column("failed")
-           )
-
-       val test3Columns =
-           listOf(
-               Column("passed"),
-               Column("passed"),
-               Column("failed")
-           )
-
-       val headerRow = Row("header", headerColumns)
-       val testOneRow = Row("test1", test1Columns)
-       val testTwoRow = Row("test2", test2Columns)
-       val testThreeRow = Row("test3", test3Columns)
+       val headerRow = Row("header", listOf(Column("2020-05-20T09:00:00"), Column("2020-05-20T09:16:00"), Column("2020-05-20T09:39:00")))
+       val testOneRow = Row("test1", listOf(Column("passed"), Column("empty"), Column("failed")))
+       val testTwoRow = Row("test2", listOf(Column("failed"), Column("failed"), Column("failed")))
+       val testThreeRow = Row("test3",listOf(Column("passed"), Column("passed"), Column("failed")))
 
        return ReportDisplay(listOf(headerRow, testOneRow, testTwoRow, testThreeRow))
     }

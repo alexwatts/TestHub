@@ -13,7 +13,6 @@ interface ResultProps {
 }
 
 export function Results(props: ResultProps) {
-
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -39,5 +38,4 @@ export function Results(props: ResultProps) {
             </table>
         </span>
     );
-
 }
