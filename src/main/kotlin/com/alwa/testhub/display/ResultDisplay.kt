@@ -16,7 +16,7 @@ class ResultDisplay {
     fun displayResults(results: List<TestResult>): ReportDisplay {
         return ReportDisplay(
             listOf(
-                    buildHeaderRow(results.sortedByDescending { it.reportTime })
+                    buildHeaderRow(results)
                   ) + buildTestRows(results),
         )
     }
@@ -37,6 +37,7 @@ class ResultDisplay {
 
     private fun buildTestColumns(results: List<TestResult>, testName: TestResult) =
         results
+            .sortedByDescending { it.reportTime }
             .groupBy { it.reportTime }
             .map { testRun ->
                     results
@@ -49,7 +50,7 @@ class ResultDisplay {
     private fun buildHeaderColumns(results: List<TestResult>) =
         results
             .distinctBy { it.reportTime }
-            .sortedBy { it.reportTime }
+            .sortedByDescending { it.reportTime }
             .map { Column(formatDate(it.reportTime)) }
 
     private fun toColumn(testResults: List<TestResult>?) : Column {
