@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: testhub
-          image: registry.digitalocean.com/do-k8s-ecr/test-hub
+          image: registry.digitalocean.com/do-k8s-ecr/test-hub:latest
           imagePullPolicy: "Always"
           env:
             - name: JAVA_OPTS
