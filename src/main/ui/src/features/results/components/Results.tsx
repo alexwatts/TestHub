@@ -41,7 +41,7 @@ export function Results(props: ResultProps) {
 
     return (
         <span className={styles.value}>
-            <table>
+            <table className={styles.styledtable}>
                 <thead>
                     {headerRow(props.results.rows[0])}
                 </thead>
