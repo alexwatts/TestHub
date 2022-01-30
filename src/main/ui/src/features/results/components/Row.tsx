@@ -4,7 +4,6 @@ import {ColumnData} from "../types";
 
 interface RowProps {
   name: string
-  header: boolean
   columns: ColumnData[]
 }
 
@@ -14,7 +13,6 @@ export function Row(props: RowProps) {
         return (
             <Column
                 key={idx}
-                header={props.header}
                 display={column.display}/>
         )
     }

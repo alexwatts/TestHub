@@ -5,8 +5,10 @@ import {
     fetchAsync,
 } from '../store/resultSlice';
 import {Row} from "./Row";
+import {HeaderRow} from "./HeaderRow";
 import {DisplayResult, RowData} from "../types";
 import styles from '../Result.module.css'
+
 
 interface ResultProps {
     results: DisplayResult;
@@ -19,12 +21,20 @@ export function Results(props: ResultProps) {
         dispatch(fetchAsync())
     }, [dispatch])
 
+    const headerRow = function (row: RowData) {
+        return (
+            <HeaderRow
+                key={0}
+                name={row.name}
+                columns={row.columns}/>
+        )
+    }
+
     const row = function (row: RowData, idx: number) {
         return (
             <Row
                 key={idx}
                 name={row.name}
-                header={idx === 0}
                 columns={row.columns}/>
         )
     }
@@ -32,10 +42,14 @@ export function Results(props: ResultProps) {
     return (
         <span className={styles.value}>
             <table>
+                <thead>
+                    {headerRow(props.results.rows[0])}
+                </thead>
                 <tbody>
-                    {props.results.rows.map(row)}
+                    {props.results.rows.slice(1, props.results.rows.length).map(row)}
                 </tbody>
             </table>
         </span>
     );
+
 }

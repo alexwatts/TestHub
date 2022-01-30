@@ -11,3 +11,8 @@ export interface ColumnData {
     display: string;
     key: string
 }
+
+export interface RowProps {
+    name: string
+    columns: ColumnData[]
+}

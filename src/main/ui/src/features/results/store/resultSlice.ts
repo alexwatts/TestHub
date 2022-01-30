@@ -9,7 +9,7 @@ export interface ResultsState {
 }
 
 const initialState: ResultsState = {
-  value:  { rows:[] },
+  value:  { rows:[ { name: "header", columns: []}] },
   status: 'idle',
 };
 
