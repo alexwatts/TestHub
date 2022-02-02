@@ -6,11 +6,9 @@ function App() {
 
     useEffect(() => {
         const splash = document.querySelector('.App-splash');
-
         setTimeout(() => {
             splash!.classList.add('display-none')
         }, 2000)
-
     }, [])
 
 
