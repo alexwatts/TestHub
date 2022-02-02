@@ -29,10 +29,10 @@ class ResultDisplay {
             .sortedByDescending { it.reportTime }
             .distinctBy { it.name }
             .map { testName ->
-                        Row(
-                            testName.name,
-                            buildTestColumns(results, testName)
-                        )
+                Row(
+                    testName.name,
+                    buildTestColumns(results, testName)
+                )
             }
 
     private fun buildTestColumns(results: List<TestResult>, testName: TestResult) =

@@ -9,7 +9,6 @@ import {HeaderRow} from "./HeaderRow";
 import {DisplayResult, RowData} from "../types";
 import styles from '../Result.module.css'
 
-
 interface ResultProps {
     results: DisplayResult;
 }
