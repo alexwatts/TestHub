@@ -10,12 +10,20 @@ describe('My Connected React-Redux Component', () => {
     let store;
 
     beforeEach(() => {
+        const headerColumns = [
+            {display: "2022-02-04T09:21:51.18508214"},
+            {display: "2022-02-03T09:21:51.18508214"},
+            {display: "2022-02-02T14:07:12.18508214"}
+        ]
+        const testColumns = [
+            {display: "passed"}, {display: "failed"}, {display: "empty"}
+        ]
         store = mockStore({
             displayResult: {
                 value: {
                     rows:[
-                        { name: "header", columns: [{display: "2022-02-04T09:21:51.18508214"}, {display: "2022-02-03T09:21:51.18508214"}, , {display: "2022-02-02T14:07:12.18508214"}]},
-                        { name: "aTest", columns: [{display: "passed"}, {display: "failed"}, {display: "empty"}]}
+                        { name: "header", columns: headerColumns},
+                        { name: "aTest", columns: testColumns}
                     ]
                 }
             },
