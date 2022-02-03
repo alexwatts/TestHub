@@ -3,7 +3,8 @@ import classNames from "classnames";
 import styles from '../Result.module.css'
 
 interface ColumnProps {
-  display: string
+    columnId: number,
+    display: string
 }
 
 export function Column(props: ColumnProps) {
@@ -12,12 +13,13 @@ export function Column(props: ColumnProps) {
     const empty = props.display === 'empty'
 
     return (
-        <td className={
+        <td data-testid={'test-result-' + props.columnId}
+            className={
             classNames(
                 failed && styles.columnFailed,
                 passed && styles.columnPassed,
                 empty && styles.columnEmpty
             )}>
-    </td>
-  );
+        </td>
+    );
 }

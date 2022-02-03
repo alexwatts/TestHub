@@ -13,6 +13,7 @@ export function Row(props: RowProps) {
         return (
             <Column
                 key={idx}
+                columnId={idx}
                 display={column.display}/>
         )
     }
