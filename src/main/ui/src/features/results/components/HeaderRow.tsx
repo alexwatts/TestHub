@@ -13,7 +13,7 @@ export function HeaderRow(props: RowProps) {
     }
 
     return (
-        <tr>
+        <tr data-testid='header-row'>
             <td>Test Runs</td>
             {props.columns.map(headerColumn)}
         </tr>
