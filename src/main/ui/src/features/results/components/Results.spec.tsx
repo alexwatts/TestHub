@@ -6,7 +6,7 @@ import createMockStore from 'redux-mock-store';
 
 const mockStore = createMockStore([]);
 
-describe('My Connected React-Redux Component', () => {
+describe('Results Component test', () => {
     let store;
 
     beforeEach(() => {
