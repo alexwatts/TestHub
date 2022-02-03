@@ -1,8 +1,5 @@
 import React from "react";
-
-interface ColumnProps {
-  display: string
-}
+import {ColumnProps} from "../types";
 
 export function HeaderColumn(props: ColumnProps) {
 
@@ -16,7 +13,7 @@ export function HeaderColumn(props: ColumnProps) {
     }
 
     return (
-        <td>
+        <td data-testid={'test-run-' + props.columnId}>
             {formatDate(props.display)}
         </td>
     );

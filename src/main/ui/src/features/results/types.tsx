@@ -16,3 +16,8 @@ export interface RowProps {
     name: string
     columns: ColumnData[]
 }
+
+export interface ColumnProps {
+    columnId: number,
+    display: string
+}

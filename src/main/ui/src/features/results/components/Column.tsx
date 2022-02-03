@@ -1,11 +1,8 @@
 import React from "react";
 import classNames from "classnames";
 import styles from '../Result.module.css'
+import {ColumnProps} from "../types";
 
-interface ColumnProps {
-    columnId: number,
-    display: string
-}
 
 export function Column(props: ColumnProps) {
     const failed = props.display === 'failed'

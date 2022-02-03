@@ -8,6 +8,7 @@ export function HeaderRow(props: RowProps) {
         return (
             <HeaderColumn
                 key={idx}
+                columnId={idx}
                 display={column.display} />
         )
     }

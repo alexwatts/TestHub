@@ -11,9 +11,9 @@ describe('Results Component test', () => {
 
     beforeEach(() => {
         const headerColumns = [
-            {display: "2022-02-04T09:21:51.18508214"},
-            {display: "2022-02-03T09:21:51.18508214"},
-            {display: "2022-02-02T14:07:12.18508214"}
+            {display: "2022-02-04T09:21:51.12695495"},
+            {display: "2022-02-03T10:14:15.86645368"},
+            {display: "2022-02-02T14:07:12.57943864"}
         ]
         const testColumns = [
             {display: "passed"}, {display: "failed"}, {display: "empty"}
@@ -40,10 +40,9 @@ describe('Results Component test', () => {
     });
 
     it('should render an header row with all test runs', async() => {
-        const myElement = await screen.getByTestId('header-row');
-        expect(myElement).toHaveTextContent('04/02/2022 09:21')
-        expect(myElement).toHaveTextContent('03/02/2022 09:21')
-        expect(myElement).toHaveTextContent('02/02/2022 14:07')
+        expect(await screen.getByTestId('test-run-0')).toHaveTextContent('04/02/2022 09:21')
+        expect(await screen.getByTestId('test-run-1')).toHaveTextContent('03/02/2022 10:14')
+        expect(await screen.getByTestId('test-run-2')).toHaveTextContent('02/02/2022 14:07')
     });
 
     it('should render a test row with the pass style', async() => {
