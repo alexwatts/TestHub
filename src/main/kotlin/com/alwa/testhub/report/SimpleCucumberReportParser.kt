@@ -41,10 +41,7 @@ class SimpleCucumberReportParser: ReportParser {
         JsonPath.read<JSONArray>(reportData.report, JSON_PATH_SCREENSHOT(testName))
             .map { (it as LinkedHashMap<*, *>) }
             .map { ScreenShot(it["mime_type"] as String, it["data"] as String) }
-            .first()
+            .firstOrNull()
 
 }
-
-
-
 
