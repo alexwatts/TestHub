@@ -29,8 +29,8 @@ object ObjectMother {
                     "embeddings": [
                       {
                         "data": "guehnfdsaghl545423hbkj34lknb5hk34",
-                        "mime_type": "application/json",
-                        "name": "data"
+                        "mime_type": "gif;base64",
+                        "name": "screenshot"
                       }
                     ],
                     "result": {
@@ -87,8 +87,8 @@ object ObjectMother {
                     "embeddings": [
                       {
                         "data": "guehnfdsaghl545423hbkj34lknb5hk34",
-                        "mime_type": "application/json",
-                        "name": "data"
+                        "mime_type": "gif;base64",
+                        "name": "screenshot"
                       }
                     ],
                     "result": {
@@ -139,16 +139,16 @@ object ObjectMother {
         val test3 = "test3"
 
         return listOf(
-            TestResult(test1, Instant.parse(runOneTiming), true),
-            TestResult(test2, Instant.parse(runOneTiming), false),
-            TestResult(test3, Instant.parse(runOneTiming), true),
+            TestResult(test1, Instant.parse(runOneTiming), true, null),
+            TestResult(test2, Instant.parse(runOneTiming), false, null),
+            TestResult(test3, Instant.parse(runOneTiming), true, null),
 
-            TestResult(test2, Instant.parse(runTwoTiming), false),
-            TestResult(test3, Instant.parse(runTwoTiming), true),
+            TestResult(test2, Instant.parse(runTwoTiming), false, null),
+            TestResult(test3, Instant.parse(runTwoTiming), true, null),
 
-            TestResult(test1, Instant.parse(runThreeTiming), false),
-            TestResult(test2, Instant.parse(runThreeTiming), false),
-            TestResult(test3, Instant.parse(runThreeTiming), false),
+            TestResult(test1, Instant.parse(runThreeTiming), false, null),
+            TestResult(test2, Instant.parse(runThreeTiming), false, null),
+            TestResult(test3, Instant.parse(runThreeTiming), false, null),
         )
     }
 
