@@ -1,9 +1,6 @@
 package com.alwa
 
-import com.alwa.testhub.domain.Column
-import com.alwa.testhub.domain.ReportDisplay
-import com.alwa.testhub.domain.Row
-import com.alwa.testhub.domain.TestResult
+import com.alwa.testhub.domain.*
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZoneOffset
@@ -152,12 +149,20 @@ object ObjectMother {
         )
     }
 
+    fun singleRunWithScreenShot() : List<TestResult> {
+        val runOneTiming = "2020-05-20T09:00:00Z"
+        val test1 = "test1"
+        return listOf(
+            TestResult(test1, Instant.parse(runOneTiming), true, ScreenShot("mime/type", "htQWEC6543")))
+
+    }
+
     fun displayReport(
         testName: String, testRun: Instant) =
         ReportDisplay(
             listOf(
-                Row("header", listOf(Column(formatter.format(testRun)))),
-                Row(testName, listOf(Column("passed")))
+                Row("header", listOf(Column(formatter.format(testRun), null))),
+                Row(testName, listOf(Column("passed", Image("screenshot", "gif;base64", "guehnfdsaghl545423hbkj34lknb5hk34"))))
             )
         )
 }

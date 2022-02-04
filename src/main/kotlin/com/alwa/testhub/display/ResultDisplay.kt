@@ -1,9 +1,6 @@
 package com.alwa.testhub.display
 
-import com.alwa.testhub.domain.Column
-import com.alwa.testhub.domain.ReportDisplay
-import com.alwa.testhub.domain.Row
-import com.alwa.testhub.domain.TestResult
+import com.alwa.testhub.domain.*
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZoneOffset
@@ -51,23 +48,36 @@ class ResultDisplay {
         results
             .distinctBy { it.reportTime }
             .sortedByDescending { it.reportTime }
-            .map { Column(formatDate(it.reportTime)) }
+            .map { Column(formatDate(it.reportTime), null) }
 
     private fun toColumn(testResults: List<TestResult>?) : Column {
         testResults.withNotNullNorEmpty {
-            return if (this.first().success) Column("passed") else Column("failed")
+            return displayValue(testResults) ?: Column("empty", null)
         }
         testResults.whenNotNullNorEmpty {
-            return Column("empty")
+            return Column("empty", null)
         }
-        return Column("empty")
+        return Column("empty", null)
     }
+
+    private fun displayValue(testResult: List<TestResult>?) =
+        testResult.let { result -> result?.map { if (it.success) passedColumn(it) else failedColumn(it) }}?.firstOrNull()
+
+    private fun passedColumn(testResult: TestResult) =
+        Column("passed", testResult.imageOrNull())
+
+    private fun failedColumn(testResult: TestResult) =
+        Column("failed", testResult.imageOrNull())
+
+    private fun TestResult.imageOrNull() =
+       this.screenShot?.let { Image("screenshot", it.mimeType, it.data) }
 
     private fun formatDate(date: Instant) = formatter.format( date )
 
     private inline fun <E: Any, T: Collection<E>> T?.withNotNullNorEmpty(func: T.() -> Unit): Unit {
         if (this != null && this.isNotEmpty()) {
             with (this) { func() }
+
         }
     }
 
