@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service
 @ConditionalOnProperty("report.cucumber.parser", havingValue="simple")
 class SimpleCucumberReportParser: ReportParser {
 
-    fun JSON_PATH_TEST_NAMES() = "\$.[*].elements.[*].name"
+    fun jsonPathTestNames() = "\$.[*].elements.[*].name"
 
-    fun JSON_PATH_FAILED_TEST_RESULT(testName: String) =
+    fun jsonPathTestNames(testName: String) =
         "\$.[*].elements.[*].[?(@.name=='${testName}')].steps.[*].result[?(@.status=='failed')]"
 
-    fun JSON_PATH_SCREENSHOT(testName: String) =
+    fun jsonPathScreenShot(testName: String) =
         "\$.[*].elements.[*].[?(@.name=='${testName}')].after.[*].embeddings[?(@.name=='screenshot')]"
 
     override fun parseTestResults(reportData: ReportData): List<TestResult> =
@@ -32,13 +32,13 @@ class SimpleCucumberReportParser: ReportParser {
             }
 
     private fun readTestNames(reportData: ReportData) =
-        JsonPath.read<JSONArray>(reportData.report, JSON_PATH_TEST_NAMES())
+        JsonPath.read<JSONArray>(reportData.report, jsonPathTestNames())
 
     private fun testIsSuccess(reportData: ReportData, testName: String) =
-        JsonPath.read<JSONArray>(reportData.report, JSON_PATH_FAILED_TEST_RESULT(testName)).isEmpty()
+        JsonPath.read<JSONArray>(reportData.report, jsonPathTestNames(testName)).isEmpty()
 
     private fun testScreenShot(reportData: ReportData, testName: String) =
-        JsonPath.read<JSONArray>(reportData.report, JSON_PATH_SCREENSHOT(testName))
+        JsonPath.read<JSONArray>(reportData.report, jsonPathScreenShot(testName))
             .map { (it as LinkedHashMap<*, *>) }
             .map { ScreenShot(it["mime_type"] as String, it["data"] as String) }
             .firstOrNull()
