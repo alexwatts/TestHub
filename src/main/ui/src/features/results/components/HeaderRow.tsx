@@ -9,7 +9,7 @@ export function HeaderRow(props: RowProps) {
             <HeaderColumn
                 key={idx}
                 columnId={idx}
-                display={column.display} />
+                display={column.display}/>
         )
     }
 

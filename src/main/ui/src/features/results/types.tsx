@@ -8,16 +8,28 @@ export interface RowData {
 }
 
 export interface ColumnData {
+    key: string;
     display: string;
-    key: string
+    image?: ImageData;
+}
+
+export interface ImageData {
+    name: string;
+    mimeType: string;
+    data: string;
 }
 
 export interface RowProps {
-    name: string
-    columns: ColumnData[]
+    name: string;
+    columns: ColumnData[];
 }
 
 export interface ColumnProps {
-    columnId: number,
-    display: string
+    columnId: number;
+    display: string;
+    image?: ImageData;
+}
+
+export interface HoverOverImageIconProps {
+    image?: ImageData
 }

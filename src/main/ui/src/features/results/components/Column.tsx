@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import styles from '../Result.module.css'
 import {ColumnProps} from "../types";
-
+import {HoverOverImageIcon} from "./HoverOverImageIcon";
 
 export function Column(props: ColumnProps) {
     const failed = props.display === 'failed'
@@ -17,6 +17,7 @@ export function Column(props: ColumnProps) {
                 passed && styles.columnPassed,
                 empty && styles.columnEmpty
             )}>
+            <HoverOverImageIcon image={props.image}/>
         </td>
     );
 }

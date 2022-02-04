@@ -54,7 +54,7 @@ class ResultDisplay {
         testResults.withNotNullNorEmpty {
             return displayValue(testResults) ?: Column("empty", null)
         }
-        testResults.whenNotNullNorEmpty {
+        testResults.whenNotNullEmpty {
             return Column("empty", null)
         }
         return Column("empty", null)
@@ -77,12 +77,11 @@ class ResultDisplay {
     private inline fun <E: Any, T: Collection<E>> T?.withNotNullNorEmpty(func: T.() -> Unit): Unit {
         if (this != null && this.isNotEmpty()) {
             with (this) { func() }
-
         }
     }
 
-    private inline fun  <E: Any, T: Collection<E>> T?.whenNotNullNorEmpty(func: (T) -> Unit): Unit {
-        if (this != null && this.isNotEmpty()) {
+    private inline fun  <E: Any, T: Collection<E>> T?.whenNotNullEmpty(func: (T) -> Unit): Unit {
+        if (this != null && this.isEmpty()) {
             func(this)
         }
     }
