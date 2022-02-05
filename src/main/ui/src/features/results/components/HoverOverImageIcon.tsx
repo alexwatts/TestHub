@@ -22,7 +22,7 @@ export function HoverOverImageIcon(props: HoverOverImageIconProps) {
                 )}>
                 {props.image &&
                     <a href="#/" onClick={() => openImageTab('data:image/png;base64,' + props.image?.data)} >
-                        <FontAwesomeIcon icon={faCamera} />
+                        <FontAwesomeIcon icon={faCamera}/>
                         <span>
                             <img
                                 src={'data:image/png;base64,' + props.image.data}

@@ -8,7 +8,8 @@ import java.time.format.DateTimeFormatter
 
 class ResultDisplay {
 
-    val formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(ZoneId.from(ZoneOffset.UTC))
+    val formatter: DateTimeFormatter =
+        DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(ZoneId.from(ZoneOffset.UTC))
 
     fun displayResults(results: List<TestResult>): ReportDisplay {
         return ReportDisplay(
@@ -37,12 +38,17 @@ class ResultDisplay {
             .sortedByDescending { it.reportTime }
             .groupBy { it.reportTime }
             .map { testRun ->
-                    results
-                        .partition { it.name == testName.name }
-                        .first
-                        .groupBy { it.reportTime }
-                        .get(testRun.key)
+                locateTestResult(results, testName, testRun.key)
             }.map { toColumn(it) }
+
+    private fun locateTestResult(
+        results: List<TestResult>,
+        testName: TestResult,
+        testRun: Instant) =
+            results
+                .partition { it.name == testName.name }
+                .first
+                .groupBy { it.reportTime }[testRun]
 
     private fun buildHeaderColumns(results: List<TestResult>) =
         results
@@ -61,7 +67,10 @@ class ResultDisplay {
     }
 
     private fun displayValue(testResult: List<TestResult>?) =
-        testResult.let { result -> result?.map { if (it.success) passedColumn(it) else failedColumn(it) }}?.firstOrNull()
+        testResult.let { result -> result?.map { displayColumn(it) }}?.firstOrNull()
+
+    private fun displayColumn(testResult: TestResult) =
+        if (testResult.success) passedColumn(testResult) else failedColumn(testResult)
 
     private fun passedColumn(testResult: TestResult) =
         Column("passed", testResult.imageOrNull())

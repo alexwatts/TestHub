@@ -12,11 +12,12 @@ export function Column(props: ColumnProps) {
     return (
         <td data-testid={'test-result-' + props.columnId}
             className={
-            classNames(
-                failed && styles.columnFailed,
-                passed && styles.columnPassed,
-                empty && styles.columnEmpty
-            )}>
+                classNames(
+                    failed && styles.columnFailed,
+                    passed && styles.columnPassed,
+                    empty && styles.columnEmpty
+                )
+            }>
             <HoverOverImageIcon image={props.image}/>
         </td>
     );
