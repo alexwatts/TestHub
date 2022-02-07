@@ -8,19 +8,18 @@ import java.time.format.DateTimeFormatter
 
 class ResultDisplay {
 
-    val formatter: DateTimeFormatter =
-        DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(ZoneId.from(ZoneOffset.UTC))
+    fun formatter(): DateTimeFormatter =
+        DateTimeFormatter.ISO_LOCAL_DATE_TIME
+            .withZone(ZoneId.from(ZoneOffset.UTC))
 
     fun displayResults(results: List<TestResult>): ReportDisplay {
         return ReportDisplay(
-            listOf(
-                    buildHeaderRow(results)
-                  ) + buildTestRows(results),
+            buildHeaderRow(results) + buildTestRows(results),
         )
     }
 
     private fun buildHeaderRow(results: List<TestResult>) =
-        Row("header", buildHeaderColumns(results))
+        listOf(Row("header", buildHeaderColumns(results)))
 
     private fun buildTestRows(results: List<TestResult>) =
         results
@@ -37,14 +36,13 @@ class ResultDisplay {
         results
             .sortedByDescending { it.reportTime }
             .groupBy { it.reportTime }
-            .map { testRun ->
-                locateTestResult(results, testName, testRun.key)
-            }.map { toColumn(it) }
+            .map { findTestRun(it.key, testName, results) }
+            .map { toColumn(it) }
 
-    private fun locateTestResult(
-        results: List<TestResult>,
+    private fun findTestRun(
+        testRun: Instant,
         testName: TestResult,
-        testRun: Instant) =
+        results: List<TestResult>) =
             results
                 .partition { it.name == testName.name }
                 .first
@@ -59,9 +57,6 @@ class ResultDisplay {
     private fun toColumn(testResults: List<TestResult>?) : Column {
         testResults.withNotNullNorEmpty {
             return displayValue(testResults) ?: Column("empty", null)
-        }
-        testResults.whenNotNullEmpty {
-            return Column("empty", null)
         }
         return Column("empty", null)
     }
@@ -81,17 +76,11 @@ class ResultDisplay {
     private fun TestResult.imageOrNull() =
        this.screenShot?.let { Image("screenshot", it.mimeType, it.data) }
 
-    private fun formatDate(date: Instant) = formatter.format( date )
+    private fun formatDate(date: Instant) = formatter().format( date )
 
     private inline fun <E: Any, T: Collection<E>> T?.withNotNullNorEmpty(func: T.() -> Unit): Unit {
         if (this != null && this.isNotEmpty()) {
             with (this) { func() }
-        }
-    }
-
-    private inline fun  <E: Any, T: Collection<E>> T?.whenNotNullEmpty(func: (T) -> Unit): Unit {
-        if (this != null && this.isEmpty()) {
-            func(this)
         }
     }
 

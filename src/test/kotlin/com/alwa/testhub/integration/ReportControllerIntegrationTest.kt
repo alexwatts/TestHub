@@ -13,10 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.context.annotation.Import
 import org.springframework.core.ParameterizedTypeReference
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpMethod
-import org.springframework.http.MediaType
+import org.springframework.http.*
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.time.Clock
@@ -49,6 +46,17 @@ class ReportControllerIntegrationTest {
         val exchange = testRestTemplate.exchange(
             "/reports", HttpMethod.GET, HttpEntity(null, headers), object : ParameterizedTypeReference<ReportDisplay>() {})
         assertThat(exchange.body ,equalTo(ObjectMother.displayReport("Test Example", Instant.parse("2021-11-20T09:00:00Z"))))
+    }
+
+
+    @Test
+    fun deleteReportDeletesReport() {
+        val report =  ObjectMother.report()
+        testRestTemplate.exchange("/reports/test", HttpMethod.POST, HttpEntity(report, headers), String::class.java )
+        testRestTemplate.exchange("/reports/test", HttpMethod.DELETE, HttpEntity(report, headers), String::class.java )
+        val exchange = testRestTemplate.exchange(
+            "/reports", HttpMethod.GET, HttpEntity(null, headers), object : ParameterizedTypeReference<ReportDisplay>() {})
+        assertThat(exchange.body ,equalTo(ObjectMother.emptyReport()))
     }
 
 }

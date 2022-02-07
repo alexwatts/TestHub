@@ -165,4 +165,9 @@ object ObjectMother {
                 Row(testName, listOf(Column("passed", Image("screenshot", "gif;base64", "guehnfdsaghl545423hbkj34lknb5hk34"))))
             )
         )
+
+    fun emptyReport() =
+        ReportDisplay(
+            listOf(Row("header", emptyList()))
+        )
 }

@@ -42,4 +42,6 @@ class ResultDisplayTest {
         val testOneRow = Row("test1", listOf(Column("passed", Image("screenshot", "mime/type", "htQWEC6543"))))
         return ReportDisplay(listOf(headerRow, testOneRow))
     }
+
+
 }

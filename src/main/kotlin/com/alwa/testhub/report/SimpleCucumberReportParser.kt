@@ -14,7 +14,7 @@ class SimpleCucumberReportParser: ReportParser {
 
     fun jsonPathTestNames() = "\$.[*].elements.[*].name"
 
-    fun jsonPathTestNames(testName: String) =
+    fun jsonPathFailedTestNames(testName: String) =
         "\$.[*].elements.[*].[?(@.name=='${testName}')].steps.[*].result[?(@.status=='failed')]"
 
     fun jsonPathScreenShot(testName: String) =
@@ -35,7 +35,7 @@ class SimpleCucumberReportParser: ReportParser {
         JsonPath.read<JSONArray>(reportData.report, jsonPathTestNames())
 
     private fun testIsSuccess(reportData: ReportData, testName: String) =
-        JsonPath.read<JSONArray>(reportData.report, jsonPathTestNames(testName)).isEmpty()
+        JsonPath.read<JSONArray>(reportData.report, jsonPathFailedTestNames(testName)).isEmpty()
 
     private fun testScreenShot(reportData: ReportData, testName: String) =
         JsonPath.read<JSONArray>(reportData.report, jsonPathScreenShot(testName))

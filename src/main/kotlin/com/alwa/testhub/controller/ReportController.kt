@@ -41,4 +41,3 @@ class ReportController(val reportService: ReportService) {
     fun deletePartition(@PathVariable("partition") partition: String) =
         reportService.delete(partition)
 }
-
