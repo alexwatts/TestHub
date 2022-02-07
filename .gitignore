@@ -4,3 +4,4 @@ build
 src/main/resources/public/**
 /results
 .DS_Store
+out
