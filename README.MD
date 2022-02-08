@@ -27,3 +27,15 @@ http://138.68.170.14:30000
 The steps can be extracted from Jenkinsfile though be run against a local kubernetes cluster or run locally with docker
 
 There is another jenkins job in the same instance that builds a bare gradle docker image, with just the spring boot / third party gradle dependencies for TestHub to avoid having to pull these dependencies ever time TestHub pipeline is built. It's named TestHub-dependencies cache. This image is the base image for the TestHub-pipeline and contains a gradle dependcies cache
+
+## Authors
+
+* **Alex Watts** - (https://github.com/alexwatts)
+
+## License
+
+This project is licensed under the MIT License
+
+## Acknowledgments
+
+* https://tech.ebayinc.com/engineering/failbot
