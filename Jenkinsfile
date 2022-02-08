@@ -44,8 +44,6 @@ pipeline {
         stage('clone') {
             steps {
                 sh "git clone https://github.com/alexwatts/TestHub"
-            }
-            steps {
                 sh "git clone https://github.com/alexwatts/TestHubUI"
             }
         }
