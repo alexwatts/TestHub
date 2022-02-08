@@ -45,11 +45,14 @@ pipeline {
             steps {
                 sh "git clone https://github.com/alexwatts/TestHub"
             }
+            steps {
+                sh "git clone https://github.com/alexwatts/TestHubUI"
+            }
         }
         stage('build') {
             steps {
               container('node') {
-                  sh 'yarn --cwd TestHub/src/main/ui install && yarn --cwd TestHub/src/main/ui build && mv TestHub/src/main/ui/build TestHub/src/main/resources/public'
+                  sh 'yarn --cwd TestHubUI install && yarn --cwd TestHubUI build && mv TestHubUI/build TestHub/src/main/resources/public'
               }
               container('gradle') {
                   sh 'cp -r /cache /home/gradle/.gradle'

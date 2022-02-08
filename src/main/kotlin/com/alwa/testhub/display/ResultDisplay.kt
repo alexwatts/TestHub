@@ -42,9 +42,10 @@ class ResultDisplay {
             .map { Column(formatDate(it.reportTime), null) }
 
     private fun toColumn(testResults: List<TestResult>?): Column {
-        return testResults?.map { displayValue(testResults) }?.firstOrNull() ?: Column("empty", null)
+        return testResults
+            ?.map { displayValue(testResults) }
+            ?.firstOrNull() ?: Column("empty", null)
     }
-
     private fun displayValue(testResult: List<TestResult>?) =
         testResult.let { result -> result?.map { displayColumn(it) }}?.firstOrNull()
 
