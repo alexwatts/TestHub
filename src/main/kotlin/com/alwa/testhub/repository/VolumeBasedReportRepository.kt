@@ -13,14 +13,22 @@ import kotlin.text.Charsets.UTF_8
 
 @Repository
 @ConditionalOnProperty("storage.volume", havingValue="true")
-class VolumeBasedReportRepository(
-    @Value("\${storage.rootPath}") val rootPath: String): ReportRepository {
+class VolumeBasedReportRepository: ReportRepository {
+
+    @Value("\${storage.rootPath}")
+    lateinit var rootPath: String
 
     override fun create(reportData: ReportData) {
-        val reportDirectory = getReportDirectory(reportData.partition)
-        createReportDirectoryIfMissing(reportDirectory)
-        writeReport(reportData.report, reportDirectory, reportData.time)
+        val reportDirectorPath =
+            createFilePath(reportData)
+        writeReport(reportData.report, reportDirectorPath)
     }
+
+    private fun createFilePath(reportData: ReportData) =
+        Path.of(createReportDirectory(getReportDirectory(reportData.partition))
+            .toAbsolutePath().toString(),
+        reportData.time.toString()
+    )
 
     override fun getBefore(before: Instant) =
         getReportsFiltered { it.time.isBefore(before) }
@@ -44,25 +52,22 @@ class VolumeBasedReportRepository(
 
     private fun getReportDirectory(partition: String) = "$rootPath/$partition"
 
-    private fun createReportDirectoryIfMissing(directory: String) =
+    private fun createReportDirectory(directory: String) =
         Files.createDirectories(Path.of(directory))
 
-    private fun writeReport(report: String, directory: String, time: Instant) =
+    private fun writeReport(report: String, reportDirectorPath: Path) {
         Files.write(
-            Path.of("$directory/$time"),
+            reportDirectorPath,
             report.toByteArray()
         )
+    }
 
     private fun File.toReport() =
         ReportData(
             Instant.parse(this.name),
             this.readText(UTF_8),
-            this.lastPathPart()
+            this.parent.substringAfterLast(File.separatorChar)
         )
 
-    private fun File.lastPathPart() =
-        this.parent.takeLastWhile { !it.isFileSeparator() }
-
-    private fun Char.isFileSeparator(): Boolean = this == File.separatorChar
 
 }

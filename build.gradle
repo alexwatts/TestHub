@@ -21,9 +21,9 @@ processResources {
 
 pitest {
     junit5PluginVersion = '0.12'
-    targetClasses = ['com.alwa.testhub.*']  //by default "${project.group}.*"
+    targetClasses = ['com.alwa.testhub.*']
     avoidCallsTo = ['kotlin.jvm.internal']
-    pitestVersion = '1.7.0' //not needed when a default PIT version should be used
+    pitestVersion = '1.7.0'
     threads = 4
     outputFormats = ['XML', 'HTML']
     timestampedReports = false

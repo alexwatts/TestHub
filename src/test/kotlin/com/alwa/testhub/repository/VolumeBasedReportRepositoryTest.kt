@@ -1,21 +1,33 @@
 package com.alwa.testhub.repository
 
+import com.alwa.testhub.ReportTestConfiguration
 import com.alwa.testhub.domain.ReportData
-import org.hamcrest.CoreMatchers.equalTo
-import org.hamcrest.CoreMatchers.nullValue
+import org.hamcrest.CoreMatchers.*
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.context.annotation.Import
+import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.time.Instant
 
-class VolumeBasedReportRepositoryTest {
-    val subject: VolumeBasedReportRepository =
-        VolumeBasedReportRepository(
-            System.getProperty("java.io.tmpdir") + "/results")
+@ActiveProfiles("test")
+@ExtendWith(SpringExtension::class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Import(ReportTestConfiguration::class)
+
+class VolumeBasedReportRepositoryTest() {
+
+    @Autowired
+    lateinit var volumeBasedReportRepository: VolumeBasedReportRepository
 
     val partition = "testPartition"
     val now = Instant.parse("2020-05-20T09:00:00Z")
     val later = Instant.parse("2020-05-20T09:30:00Z")
-    val ealier = Instant.parse("2020-05-20T08:00:00Z")
+    val muchLater = Instant.parse("2025-05-20T09:30:00Z")
+    val earlier = Instant.parse("2020-05-20T08:00:00Z")
 
     val reportData =
         ReportData(
@@ -24,24 +36,38 @@ class VolumeBasedReportRepositoryTest {
             "testPartition")
 
     @Test
-    fun saveAndFindReportBefore() {
-        subject.create(reportData)
-        val savedReport = subject.getBefore(later)
+    fun savedReportIsWritten() {
+        volumeBasedReportRepository.create(reportData)
+        val savedReport = volumeBasedReportRepository.getBefore(later)
         assertThat(savedReport.get(partition)?.firstOrNull(), equalTo(reportData))
+    }
+
+    @Test
+    fun saveAndFindReportBeforeIsEmpty() {
+        volumeBasedReportRepository.create(reportData)
+        val savedReport = volumeBasedReportRepository.getBefore(earlier)
+        assertThat(savedReport[partition], `is`(nullValue()))
     }
 
     @Test
     fun saveAndFindReportAfter() {
-        subject.create(reportData)
-        val savedReport = subject.getAfter(ealier)
+        volumeBasedReportRepository.create(reportData)
+        val savedReport = volumeBasedReportRepository.getAfter(earlier)
         assertThat(savedReport.get(partition)?.firstOrNull(), equalTo(reportData))
     }
 
     @Test
+    fun saveAndFindReportAfterIsEmpty() {
+        volumeBasedReportRepository.create(reportData)
+        val savedReport = volumeBasedReportRepository.getAfter(muchLater)
+        assertThat(savedReport[partition], `is`(nullValue()))
+    }
+
+    @Test
     fun saveAndDeletePartition() {
-        subject.create(reportData)
-        subject.delete(partition)
-        val savedReport = subject.getBefore(later)
+        volumeBasedReportRepository.create(reportData)
+        volumeBasedReportRepository.delete(partition)
+        val savedReport = volumeBasedReportRepository.getBefore(later)
         assertThat(savedReport[partition]?.firstOrNull(), nullValue())
     }
 }
