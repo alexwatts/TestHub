@@ -19,16 +19,19 @@ class VolumeBasedReportRepository: ReportRepository {
     lateinit var rootPath: String
 
     override fun create(reportData: ReportData) {
-        val reportDirectorPath =
-            createFilePath(reportData)
-        writeReport(reportData.report, reportDirectorPath)
+        writeReport(reportData.report, createReportFilePath(reportData))
     }
 
-    private fun createFilePath(reportData: ReportData) =
-        Path.of(createReportDirectory(getReportDirectory(reportData.partition))
-            .toAbsolutePath().toString(),
-        reportData.time.toString()
-    )
+    private fun createReportFilePath(reportData: ReportData) =
+        Path.of(
+            getReportDirectory(reportData),
+            reportData.time.toString()
+        )
+
+    private fun getReportDirectory(reportData: ReportData) =
+        createReportDirectory(reportDirectory(reportData)).toAbsolutePath().toString()
+
+    private fun reportDirectory(reportData: ReportData) = "$rootPath/${reportData.partition}"
 
     override fun getBefore(before: Instant) =
         getReportsFiltered { it.time.isBefore(before) }
@@ -49,8 +52,6 @@ class VolumeBasedReportRepository: ReportRepository {
             .filter { filter(it) }
             .collect(Collectors.toList())
             .groupBy { it.partition }
-
-    private fun getReportDirectory(partition: String) = "$rootPath/$partition"
 
     private fun createReportDirectory(directory: String) =
         Files.createDirectories(Path.of(directory))
