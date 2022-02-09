@@ -22,20 +22,17 @@ class VolumeBasedReportRepository(
         writeReport(reportData.report, reportDirectory, reportData.time)
     }
 
-    override fun getBefore(before: Instant): Map<String, List<ReportData>> {
-        return getReportsFiltered { it.time.isBefore(before) }
-    }
+    override fun getBefore(before: Instant) =
+        getReportsFiltered { it.time.isBefore(before) }
 
-    override fun getAfter(after: Instant): Map<String, List<ReportData>> {
-        return getReportsFiltered { it.time.isAfter(after) }
-    }
+    override fun getAfter(after: Instant) =
+        getReportsFiltered { it.time.isAfter(after) }
 
-    override fun delete(partition: String) {
+    override fun delete(partition: String) =
         Files.walk(Path.of("$rootPath/$partition"))
             .sorted(Comparator.reverseOrder())
             .map(Path::toFile)
             .forEach(File::delete)
-    }
 
     private fun getReportsFiltered(filter: (ReportData) -> (Boolean)) =
         Files.walk(Path.of(rootPath))

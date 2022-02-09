@@ -73,7 +73,7 @@ class ReportControllerTest {
     }
 
     @Test
-    fun getDeleteCallsDelete() {
+    fun deleteCallsDelete() {
         testRestTemplate.exchange("/reports/test", HttpMethod.DELETE, HttpEntity(null, headers), String::class.java )
         Mockito.verify(reportService).delete("test")
     }

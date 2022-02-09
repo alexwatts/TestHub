@@ -28,7 +28,6 @@ class ResultDisplayTest {
     }
 
     private fun threeTestsThreeRunsDisplay(): ReportDisplay {
-
        val headerRow = Row("header", listOf(Column("2020-05-20T09:39:00", null), Column("2020-05-20T09:16:00", null), Column("2020-05-20T09:00:00", null)))
        val testOneRow = Row("test1", listOf(Column("failed", null), Column("empty", null), (Column("passed", null))))
        val testTwoRow = Row("test2", listOf(Column("failed", null), Column("failed", null), Column("failed", null)))

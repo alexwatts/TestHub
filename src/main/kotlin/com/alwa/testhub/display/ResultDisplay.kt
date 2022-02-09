@@ -16,7 +16,6 @@ class ResultDisplay {
 
     private fun buildTestRows(results: List<TestResult>) =
         results
-            .sortedByDescending { it.reportTime }
             .distinctBy { it.name }
             .map { Row(it.name, buildTestColumns(results, it)) }
 
@@ -41,11 +40,12 @@ class ResultDisplay {
             .sortedByDescending { it.reportTime }
             .map { Column(formatDate(it.reportTime), null) }
 
-    private fun toColumn(testResults: List<TestResult>?): Column {
-        return testResults
+    private fun toColumn(testResults: List<TestResult>?): Column =
+         testResults
             ?.map { displayValue(testResults) }
-            ?.firstOrNull() ?: Column("empty", null)
-    }
+            ?.firstOrNull()
+            ?: Column("empty", null)
+
     private fun displayValue(testResult: List<TestResult>?) =
         testResult.let { result -> result?.map { displayColumn(it) }}?.firstOrNull()
 

@@ -10,6 +10,7 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 processResources {
@@ -21,6 +22,7 @@ processResources {
 pitest {
     junit5PluginVersion = '0.12'
     targetClasses = ['com.alwa.testhub.*']  //by default "${project.group}.*"
+    avoidCallsTo = ['kotlin.jvm.internal']
     pitestVersion = '1.7.0' //not needed when a default PIT version should be used
     threads = 4
     outputFormats = ['XML', 'HTML']
@@ -42,6 +44,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.6'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+
+    pitest 'org.pitest:pitest-kotlin-plugin:0.1-SNAPSHOT'
 }
 
 test {

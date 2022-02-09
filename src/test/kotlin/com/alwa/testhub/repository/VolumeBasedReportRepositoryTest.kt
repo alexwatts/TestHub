@@ -42,6 +42,6 @@ class VolumeBasedReportRepositoryTest {
         subject.create(reportData)
         subject.delete(partition)
         val savedReport = subject.getBefore(later)
-        assertThat(savedReport.get(partition)?.firstOrNull(), nullValue())
+        assertThat(savedReport[partition]?.firstOrNull(), nullValue())
     }
 }
