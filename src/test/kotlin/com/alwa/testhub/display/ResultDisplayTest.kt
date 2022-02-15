@@ -11,7 +11,9 @@ import org.junit.jupiter.api.Test
 
 class ResultDisplayTest {
 
-    val subject = ResultDisplay(listOf("DEFAULT_ALL_GROUP"))
+    val DEFAULT_ALL_GROUP = "default"
+
+    val subject = ResultDisplay(listOf("default"))
 
     @Test
     fun displaysResultsInRowsAndColumns() {
@@ -33,14 +35,13 @@ class ResultDisplayTest {
        val testTwoRow = Row("test2", listOf(Column("failed", null), Column("failed", null), Column("failed", null)))
        val testThreeRow = Row("test3",listOf(Column("failed", null), Column("passed", null), Column("passed", null)))
 
-       return listOf(ReportDisplay(listOf(headerRow, testOneRow, testTwoRow, testThreeRow)))
+       return listOf(ReportDisplay(DEFAULT_ALL_GROUP, listOf(headerRow, testOneRow, testTwoRow, testThreeRow)))
     }
 
     private fun oneRunWithScreenshotDisplay(): List<ReportDisplay> {
         val headerRow = Row("header", listOf(Column("2020-05-20T09:00:00", null)))
         val testOneRow = Row("test1", listOf(Column("passed", Image("screenshot", "mime/type", "htQWEC6543"))))
-        return listOf(ReportDisplay(listOf(headerRow, testOneRow)))
+        return listOf(ReportDisplay(DEFAULT_ALL_GROUP, listOf(headerRow, testOneRow)))
     }
-
 
 }

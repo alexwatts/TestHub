@@ -27,7 +27,8 @@ class SimpleCucumberReportParser: ReportParser {
                     it as String,
                     reportData.time,
                     testIsSuccess(reportData, it),
-                    testScreenShot(reportData, it)
+                    testScreenShot(reportData, it),
+                    reportData.group
                 )
             }
 

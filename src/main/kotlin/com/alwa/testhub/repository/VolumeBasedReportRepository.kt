@@ -28,8 +28,8 @@ class VolumeBasedReportRepository: ReportRepository {
     override fun getAfter(after: Instant) =
         getReportsFiltered { it.time.isAfter(after) }
 
-    override fun delete(partition: String) =
-        Files.walk(Path.of("$rootPath/$partition"))
+    override fun delete(group: String) =
+        Files.walk(Path.of("$rootPath/$group"))
             .sorted(Comparator.reverseOrder())
             .map(Path::toFile)
             .forEach(File::delete)
@@ -43,7 +43,7 @@ class VolumeBasedReportRepository: ReportRepository {
     private fun getReportDirectory(reportData: ReportData) =
         createReportDirectory(reportDirectory(reportData)).toAbsolutePath().toString()
 
-    private fun reportDirectory(reportData: ReportData) = "$rootPath/${reportData.partition}"
+    private fun reportDirectory(reportData: ReportData) = "$rootPath/${reportData.group}"
 
     private fun getReportsFiltered(filter: (ReportData) -> (Boolean)) =
         Files.walk(Path.of(rootPath))
@@ -51,7 +51,7 @@ class VolumeBasedReportRepository: ReportRepository {
             .map { it.toFile().toReport() }
             .filter { filter(it) }
             .collect(Collectors.toList())
-            .groupBy { it.partition }
+            .groupBy { it.group }
 
     private fun createReportDirectory(directory: String) =
         Files.createDirectories(Path.of(directory))

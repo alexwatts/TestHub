@@ -1,6 +1,6 @@
 package com.alwa.testhub.domain
 
-data class ReportDisplay(val rows: List<Row>)
+data class ReportDisplay(val group: String, val rows: List<Row>)
 
 data class Row(val name: String, val columns: List<Column>)
 

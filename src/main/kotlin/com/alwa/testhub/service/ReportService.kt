@@ -14,13 +14,13 @@ class ReportService(
     private val clock: Clock,
     private val reportBuilder: ReportParser) {
 
-    fun createReport(reportData: String, partition: String) {
-        reportRepository.create(ReportData(clock.instant(), reportData, partition))
+    fun createReport(reportData: String, group: String) {
+        reportRepository.create(ReportData(clock.instant(), reportData, group))
     }
 
     fun getReports(groups: Array<String>?) =
         ResultDisplay(groupsOrDefault(groups)).displayResults(
-            reportRepository.getAfter(fiveDaysAgo())
+            reportRepository.getAfter(window())
             .values
             .flatten()
             .map { reportBuilder.parseTestResults(it) }
@@ -33,8 +33,8 @@ class ReportService(
             else -> groups?.toList()
         } ?: listOf("default")
 
-    fun delete(partition: String) = reportRepository.delete(partition)
+    fun delete(group: String) = reportRepository.delete(group)
 
-    private fun fiveDaysAgo() =
+    private fun window() =
         clock.instant().minus(5, ChronoUnit.DAYS)
 }

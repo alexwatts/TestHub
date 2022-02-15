@@ -136,16 +136,16 @@ object ObjectMother {
         val test3 = "test3"
 
         return listOf(
-            TestResult(test1, Instant.parse(runOneTiming), true, null),
-            TestResult(test2, Instant.parse(runOneTiming), false, null),
-            TestResult(test3, Instant.parse(runOneTiming), true, null),
+            TestResult(test1, Instant.parse(runOneTiming), true, null, "default"),
+            TestResult(test2, Instant.parse(runOneTiming), false, null, "default"),
+            TestResult(test3, Instant.parse(runOneTiming), true, null, "default"),
 
-            TestResult(test2, Instant.parse(runTwoTiming), false, null),
-            TestResult(test3, Instant.parse(runTwoTiming), true, null),
+            TestResult(test2, Instant.parse(runTwoTiming), false, null, "default"),
+            TestResult(test3, Instant.parse(runTwoTiming), true, null, "default"),
 
-            TestResult(test1, Instant.parse(runThreeTiming), false, null),
-            TestResult(test2, Instant.parse(runThreeTiming), false, null),
-            TestResult(test3, Instant.parse(runThreeTiming), false, null),
+            TestResult(test1, Instant.parse(runThreeTiming), false, null, "default"),
+            TestResult(test2, Instant.parse(runThreeTiming), false, null, "default"),
+            TestResult(test3, Instant.parse(runThreeTiming), false, null, "default"),
         )
     }
 
@@ -153,13 +153,14 @@ object ObjectMother {
         val runOneTiming = "2020-05-20T09:00:00Z"
         val test1 = "test1"
         return listOf(
-            TestResult(test1, Instant.parse(runOneTiming), true, ScreenShot("mime/type", "htQWEC6543")))
+            TestResult(test1, Instant.parse(runOneTiming), true, ScreenShot("mime/type", "htQWEC6543"), "default"))
 
     }
 
     fun displayReport(
         testName: String, testRun: Instant) =
         ReportDisplay(
+            "default",
             listOf(
                 Row("header", listOf(Column(formatter.format(testRun), null))),
                 Row(testName, listOf(Column("passed", Image("screenshot", "gif;base64", "guehnfdsaghl545423hbkj34lknb5hk34"))))
@@ -168,6 +169,26 @@ object ObjectMother {
 
     fun emptyReport() =
         ReportDisplay(
+            "default",
             listOf(Row("header", emptyList()))
+        )
+
+    fun twoGroupsDisplay() =
+        ReportDisplay(
+            "default",
+            listOf(
+                Row("header",
+                    listOf(
+                        Column(ObjectMother.formatter.format(Instant.parse("2021-11-20T09:01:00Z")), null),
+                        Column(ObjectMother.formatter.format(Instant.parse("2021-11-20T09:00:00Z")), null)
+                    )
+                ),
+                Row("Test Example",
+                    listOf(
+                        Column("passed", Image("screenshot", "gif;base64", "guehnfdsaghl545423hbkj34lknb5hk34")),
+                        Column("passed", Image("screenshot", "gif;base64", "guehnfdsaghl545423hbkj34lknb5hk34"))
+                    )
+                )
+            )
         )
 }

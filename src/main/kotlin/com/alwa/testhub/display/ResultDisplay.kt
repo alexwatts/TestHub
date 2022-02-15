@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter
 class ResultDisplay(val groups: List<String>) {
 
     fun displayResults(results: List<TestResult>) =
-        groups.map{ ReportDisplay(buildHeaderRow(results) + buildTestRows(results)) }
+        groups.map{ ReportDisplay(it, buildHeaderRow(results) + buildTestRows(results)) }
 
     private fun buildHeaderRow(results: List<TestResult>) =
         listOf(Row("header", buildHeaderColumns(results)))

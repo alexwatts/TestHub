@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.*
 class ReportController(val reportService: ReportService) {
 
     @RequestMapping(
-        value = ["{partition}"],
+        value = ["{group}"],
         consumes = ["application/json"],
         produces = ["application/json"],
         method = [RequestMethod.POST]
     )
     fun createReport(
-        @PathVariable("partition") partition: String,
+        @PathVariable("group") group: String,
         @RequestBody reportData: String) =
-        reportService.createReport(reportData, partition)
+        reportService.createReport(reportData, group)
 
     @ResponseBody
     @RequestMapping(
@@ -31,9 +31,9 @@ class ReportController(val reportService: ReportService) {
         ResponseEntity(reportService.getReports(groups), HttpStatus.OK)
 
     @RequestMapping(
-        value = ["{partition}"],
+        value = ["{group}"],
         method = [RequestMethod.DELETE]
     )
-    fun deletePartition(@PathVariable("partition") partition: String) =
-        reportService.delete(partition)
+    fun deleteGroup(@PathVariable("group") group: String) =
+        reportService.delete(group)
 }
