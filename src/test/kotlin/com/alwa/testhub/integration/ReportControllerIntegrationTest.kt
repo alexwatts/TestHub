@@ -44,10 +44,9 @@ class ReportControllerIntegrationTest {
         val report =  ObjectMother.report()
         testRestTemplate.exchange("/reports/test", HttpMethod.POST, HttpEntity(report, headers), String::class.java )
         val exchange = testRestTemplate.exchange(
-            "/reports", HttpMethod.GET, HttpEntity(null, headers), object : ParameterizedTypeReference<ReportDisplay>() {})
-        assertThat(exchange.body ,equalTo(ObjectMother.displayReport("Test Example", Instant.parse("2021-11-20T09:00:00Z"))))
+            "/reports", HttpMethod.GET, HttpEntity(null, headers), object : ParameterizedTypeReference<List<ReportDisplay>>() {})
+        assertThat(exchange.body ,equalTo(listOf(ObjectMother.displayReport("Test Example", Instant.parse("2021-11-20T09:00:00Z")))))
     }
-
 
     @Test
     fun deleteReportDeletesReport() {
@@ -55,8 +54,8 @@ class ReportControllerIntegrationTest {
         testRestTemplate.exchange("/reports/test", HttpMethod.POST, HttpEntity(report, headers), String::class.java )
         testRestTemplate.exchange("/reports/test", HttpMethod.DELETE, HttpEntity(report, headers), String::class.java )
         val exchange = testRestTemplate.exchange(
-            "/reports", HttpMethod.GET, HttpEntity(null, headers), object : ParameterizedTypeReference<ReportDisplay>() {})
-        assertThat(exchange.body ,equalTo(ObjectMother.emptyReport()))
+            "/reports", HttpMethod.GET, HttpEntity(null, headers), object : ParameterizedTypeReference<List<ReportDisplay>>() {})
+        assertThat(exchange.body ,equalTo(listOf(ObjectMother.emptyReport())))
     }
 
 }

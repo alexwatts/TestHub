@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 
 class ResultDisplayTest {
 
-    val subject = ResultDisplay()
+    val subject = ResultDisplay(listOf("DEFAULT_ALL_GROUP"))
 
     @Test
     fun displaysResultsInRowsAndColumns() {
@@ -27,19 +27,19 @@ class ResultDisplayTest {
         assertThat(reportDisplay, equalTo(oneRunWithScreenshotDisplay()))
     }
 
-    private fun threeTestsThreeRunsDisplay(): ReportDisplay {
+    private fun threeTestsThreeRunsDisplay(): List<ReportDisplay> {
        val headerRow = Row("header", listOf(Column("2020-05-20T09:39:00", null), Column("2020-05-20T09:16:00", null), Column("2020-05-20T09:00:00", null)))
        val testOneRow = Row("test1", listOf(Column("failed", null), Column("empty", null), (Column("passed", null))))
        val testTwoRow = Row("test2", listOf(Column("failed", null), Column("failed", null), Column("failed", null)))
        val testThreeRow = Row("test3",listOf(Column("failed", null), Column("passed", null), Column("passed", null)))
 
-       return ReportDisplay(listOf(headerRow, testOneRow, testTwoRow, testThreeRow))
+       return listOf(ReportDisplay(listOf(headerRow, testOneRow, testTwoRow, testThreeRow)))
     }
 
-    private fun oneRunWithScreenshotDisplay(): ReportDisplay {
+    private fun oneRunWithScreenshotDisplay(): List<ReportDisplay> {
         val headerRow = Row("header", listOf(Column("2020-05-20T09:00:00", null)))
         val testOneRow = Row("test1", listOf(Column("passed", Image("screenshot", "mime/type", "htQWEC6543"))))
-        return ReportDisplay(listOf(headerRow, testOneRow))
+        return listOf(ReportDisplay(listOf(headerRow, testOneRow)))
     }
 
 

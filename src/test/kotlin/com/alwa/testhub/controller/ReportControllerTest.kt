@@ -48,6 +48,13 @@ class ReportControllerTest {
     }
 
     @Test
+    fun submitReportWithGroupParamRespondsOk() {
+        val report =  ObjectMother.report()
+        val createdAccount = testRestTemplate.exchange("/reports/test", HttpMethod.POST, HttpEntity(report, headers), String::class.java )
+        assertThat(createdAccount.statusCode, equalTo(HttpStatus.OK))
+    }
+
+    @Test
     fun submitReportCreatesReport() {
         val report =  ObjectMother.report()
         testRestTemplate.exchange("/reports/test", HttpMethod.POST, HttpEntity(report, headers), String::class.java )
@@ -63,7 +70,13 @@ class ReportControllerTest {
     @Test
     fun getReportsGetsReports() {
         testRestTemplate.exchange("/reports", HttpMethod.GET, HttpEntity(null, headers), String::class.java )
-        Mockito.verify(reportService).getReports()
+        Mockito.verify(reportService).getReports(null)
+    }
+
+    @Test
+    fun getReportsGetsReportsWithGroupsParam() {
+        testRestTemplate.exchange("/reports?groups=group1,group2", HttpMethod.GET, HttpEntity(null, headers), String::class.java )
+        Mockito.verify(reportService).getReports(arrayOf("group1", "group2"))
     }
 
     @Test

@@ -18,14 +18,20 @@ class ReportService(
         reportRepository.create(ReportData(clock.instant(), reportData, partition))
     }
 
-    fun getReports() =
-        ResultDisplay().displayResults(
+    fun getReports(groups: Array<String>?) =
+        ResultDisplay(groupsOrDefault(groups)).displayResults(
             reportRepository.getAfter(fiveDaysAgo())
             .values
             .flatten()
             .map { reportBuilder.parseTestResults(it) }
             .flatten()
         )
+
+    private fun groupsOrDefault(groups: Array<String>?) =
+        when (groups?.size) {
+            0    -> listOf("default")
+            else -> groups?.toList()
+        } ?: listOf("default")
 
     fun delete(partition: String) = reportRepository.delete(partition)
 

@@ -6,10 +6,10 @@ import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
-class ResultDisplay {
+class ResultDisplay(val groups: List<String>) {
 
     fun displayResults(results: List<TestResult>) =
-        ReportDisplay(buildHeaderRow(results) + buildTestRows(results))
+        groups.map{ ReportDisplay(buildHeaderRow(results) + buildTestRows(results)) }
 
     private fun buildHeaderRow(results: List<TestResult>) =
         listOf(Row("header", buildHeaderColumns(results)))

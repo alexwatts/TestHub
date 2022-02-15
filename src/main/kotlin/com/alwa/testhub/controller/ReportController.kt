@@ -4,12 +4,7 @@ import com.alwa.testhub.domain.ReportDisplay
 import com.alwa.testhub.service.ReportService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.ResponseBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping(value = ["/reports"])
@@ -31,8 +26,9 @@ class ReportController(val reportService: ReportService) {
         produces = ["application/json"],
         method = [RequestMethod.GET]
     )
-    fun getReportDisplay(): ResponseEntity<ReportDisplay> =
-        ResponseEntity(reportService.getReports(), HttpStatus.OK)
+    fun getReportDisplay(@RequestParam(name = "groups", required = false) groups: Array<String>?):
+            ResponseEntity<List<ReportDisplay>> =
+        ResponseEntity(reportService.getReports(groups), HttpStatus.OK)
 
     @RequestMapping(
         value = ["{partition}"],
