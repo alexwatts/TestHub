@@ -2,10 +2,7 @@ package com.alwa.testhub.integration
 
 import com.alwa.ObjectMother
 import com.alwa.testhub.ReportTestConfiguration
-import com.alwa.testhub.domain.Column
-import com.alwa.testhub.domain.Image
 import com.alwa.testhub.domain.ReportDisplay
-import com.alwa.testhub.domain.Row
 import com.alwa.testhub.service.ReportService
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
@@ -99,12 +96,46 @@ class ReportControllerIntegrationTest {
         assertThat(exchange.body, equalTo(listOf(ObjectMother.twoGroupsDisplay())))
     }
 
+    @Test
+    fun submitReportsInDifferentGroupsGetGroupOneReports() {
+        val reportGroup1 =  ObjectMother.report("Test One")
+        testRestTemplate.exchange("/reports/group1", HttpMethod.POST, HttpEntity(reportGroup1, headers), String::class.java )
+
+        `when`(clock.instant()).thenReturn(
+            Instant.parse("2021-11-20T09:01:00Z"));
+
+        val reportGroup2 =  ObjectMother.report("Test Two")
+        testRestTemplate.exchange("/reports/group2", HttpMethod.POST, HttpEntity(reportGroup2, headers), String::class.java )
+
+        val exchange = testRestTemplate.exchange(
+            "/reports?groups=group1", HttpMethod.GET, HttpEntity(null, headers), object : ParameterizedTypeReference<List<ReportDisplay>>() {})
+
+        assertThat(exchange.body, equalTo(listOf(ObjectMother.groupOneOnlyDisplay())))
+    }
+
+    @Test
+    fun submitReportsInDifferentGroupsGetGroupTwoReports() {
+        val reportGroup1 =  ObjectMother.report("Test One")
+        testRestTemplate.exchange("/reports/group1", HttpMethod.POST, HttpEntity(reportGroup1, headers), String::class.java )
+
+        `when`(clock.instant()).thenReturn(
+            Instant.parse("2021-11-20T09:01:00Z"));
+
+        val reportGroup2 =  ObjectMother.report("Test Two")
+        testRestTemplate.exchange("/reports/group2", HttpMethod.POST, HttpEntity(reportGroup2, headers), String::class.java )
+
+        val exchange = testRestTemplate.exchange(
+            "/reports?groups=group2", HttpMethod.GET, HttpEntity(null, headers), object : ParameterizedTypeReference<List<ReportDisplay>>() {})
+
+        assertThat(exchange.body, equalTo(listOf(ObjectMother.groupTwoOnlyDisplay())))
+    }
+
     private fun cleanupFiles() {
         try {
             reportService.delete("group1")
             reportService.delete("group2")
             reportService.delete("test")
-        } catch (e: NoSuchFileException) {
+        } catch (_: NoSuchFileException) {
 
         }
     }

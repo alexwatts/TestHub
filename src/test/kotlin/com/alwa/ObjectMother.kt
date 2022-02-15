@@ -10,7 +10,7 @@ object ObjectMother {
 
     val formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(ZoneId.from(ZoneOffset.UTC))
 
-    fun report() = """
+    fun report(testName: String = "Test Example") = """
         [
           {
             "line": 1,
@@ -18,7 +18,7 @@ object ObjectMother {
               {
                 "start_timestamp": "2021-11-03T15:35:12.467Z",
                 "line": 36,
-                "name": "Test Example",
+                "name": "$testName",
                 "description": "",
                 "id": "some-test-example",
                 "after": [
@@ -187,6 +187,40 @@ object ObjectMother {
                     listOf(
                         Column("passed", Image("screenshot", "gif;base64", "guehnfdsaghl545423hbkj34lknb5hk34")),
                         Column("passed", Image("screenshot", "gif;base64", "guehnfdsaghl545423hbkj34lknb5hk34"))
+                    )
+                )
+            )
+        )
+
+    fun groupOneOnlyDisplay() =
+        ReportDisplay(
+            "group1",
+            listOf(
+                Row("header",
+                    listOf(
+                        Column(ObjectMother.formatter.format(Instant.parse("2021-11-20T09:00:00Z")), null)
+                    )
+                ),
+                Row("Test One",
+                    listOf(
+                        Column("passed", Image("screenshot", "gif;base64", "guehnfdsaghl545423hbkj34lknb5hk34")),
+                    )
+                )
+            )
+        )
+
+    fun groupTwoOnlyDisplay() =
+        ReportDisplay(
+            "group2",
+            listOf(
+                Row("header",
+                    listOf(
+                        Column(ObjectMother.formatter.format(Instant.parse("2021-11-20T09:01:00Z")), null)
+                    )
+                ),
+                Row("Test Two",
+                    listOf(
+                        Column("passed", Image("screenshot", "gif;base64", "guehnfdsaghl545423hbkj34lknb5hk34")),
                     )
                 )
             )

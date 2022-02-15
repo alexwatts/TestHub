@@ -8,8 +8,14 @@ import java.time.format.DateTimeFormatter
 
 class ResultDisplay(val groups: List<String>) {
 
+    private fun List<TestResult>.groupFilter(group: String) = this.filter { group == "default" || it.group == group }
+
     fun displayResults(results: List<TestResult>) =
-        groups.map{ ReportDisplay(it, buildHeaderRow(results) + buildTestRows(results)) }
+        groups.map { group ->
+                ReportDisplay(group,
+                    buildHeaderRow(results.groupFilter(group)) + buildTestRows(results.groupFilter(group))
+                )
+        }
 
     private fun buildHeaderRow(results: List<TestResult>) =
         listOf(Row("header", buildHeaderColumns(results)))
