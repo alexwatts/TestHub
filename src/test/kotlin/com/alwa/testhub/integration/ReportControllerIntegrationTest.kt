@@ -6,6 +6,7 @@ import com.alwa.testhub.domain.ReportDisplay
 import com.alwa.testhub.service.ReportService
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers.containsInAnyOrder
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -26,6 +27,7 @@ import java.nio.file.NoSuchFileException
 import java.time.Clock
 import java.time.Instant
 import java.time.ZoneId
+import java.util.*
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension::class)
@@ -147,7 +149,7 @@ class ReportControllerIntegrationTest {
             HttpEntity(null, headers),
             object : ParameterizedTypeReference<List<String>>() {})
 
-        assertThat(groups.body, equalTo(listOf("aabc123", "def456")))
+        assertThat(groups.body, containsInAnyOrder("abc123", "def456"))
     }
 
     private fun cleanupGroups(vararg groups: String) {
