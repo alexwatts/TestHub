@@ -6,7 +6,7 @@ import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
-class ResultDisplay(val groups: List<String>) {
+class ResultDisplay(private val groups: List<String>) {
 
     fun displayResults(results: List<TestResult>) =
         groups.map { group ->
