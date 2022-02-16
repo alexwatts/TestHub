@@ -47,7 +47,7 @@ class ReportControllerIntegrationTest {
     @BeforeEach
     fun setUp() {
 
-        cleanupFiles()
+        cleanupGroups("group1", "group2", "test", "abc123", "def456")
 
         headers.contentType = MediaType.APPLICATION_JSON
         headers.accept = listOf(MediaType.APPLICATION_JSON)
@@ -130,14 +130,35 @@ class ReportControllerIntegrationTest {
         assertThat(exchange.body, equalTo(listOf(ObjectMother.groupTwoOnlyDisplay())))
     }
 
-    private fun cleanupFiles() {
-        try {
-            reportService.delete("group1")
-            reportService.delete("group2")
-            reportService.delete("test")
-        } catch (_: NoSuchFileException) {
+    @Test
+    fun getGroupNamesGetsGroupNames() {
+        val reportGroup1 =  ObjectMother.report("abc123")
+        testRestTemplate.exchange("/reports/abc123", HttpMethod.POST, HttpEntity(reportGroup1, headers), String::class.java )
 
+        `when`(clock.instant()).thenReturn(
+            Instant.parse("2021-11-20T09:01:00Z"));
+
+        val reportGroup2 =  ObjectMother.report("def456")
+        testRestTemplate.exchange("/reports/def456", HttpMethod.POST, HttpEntity(reportGroup2, headers), String::class.java )
+
+        val groups = testRestTemplate.exchange(
+            "/reports/groups",
+            HttpMethod.GET,
+            HttpEntity(null, headers),
+            object : ParameterizedTypeReference<List<String>>() {})
+
+        assertThat(groups.body, equalTo(listOf("abc123", "def456")))
+    }
+
+    private fun cleanupGroups(vararg groups: String) {
+        groups.forEach {
+            try {
+                reportService.delete(it)
+            } catch (e: NoSuchFileException) {
+
+            }
         }
+
     }
 
 }

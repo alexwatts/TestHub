@@ -8,12 +8,11 @@ import java.time.format.DateTimeFormatter
 
 class ResultDisplay(val groups: List<String>) {
 
-    private fun List<TestResult>.groupFilter(group: String) = this.filter { group == "default" || it.group == group }
-
     fun displayResults(results: List<TestResult>) =
         groups.map { group ->
                 ReportDisplay(group,
-                    buildHeaderRow(results.groupFilter(group)) + buildTestRows(results.groupFilter(group))
+                buildHeaderRow(results.groupFilter(group)) +
+                      buildTestRows(results.groupFilter(group))
                 )
         }
 
@@ -72,5 +71,9 @@ class ResultDisplay(val groups: List<String>) {
     private fun formatter(): DateTimeFormatter =
         DateTimeFormatter.ISO_LOCAL_DATE_TIME
             .withZone(ZoneId.from(ZoneOffset.UTC))
+
+    private fun List<TestResult>.groupFilter(group: String) =
+        this.filter { group == "default" || it.group == group }
+
 
 }

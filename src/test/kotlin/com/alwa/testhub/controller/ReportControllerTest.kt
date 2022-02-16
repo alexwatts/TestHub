@@ -2,6 +2,7 @@ package com.alwa.testhub.controller
 
 import com.alwa.ObjectMother
 import com.alwa.testhub.ReportTestConfiguration
+import com.alwa.testhub.domain.ReportDisplay
 import com.alwa.testhub.service.ReportService
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
@@ -14,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.context.annotation.Import
+import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
@@ -90,4 +92,21 @@ class ReportControllerTest {
         testRestTemplate.exchange("/reports/test", HttpMethod.DELETE, HttpEntity(null, headers), String::class.java )
         Mockito.verify(reportService).delete("test")
     }
+
+    @Test
+    fun getGroupNamesRespondsOk() {
+        val exchange = testRestTemplate.exchange("/reports/groups", HttpMethod.GET, HttpEntity(null, headers), String::class.java)
+        assertThat(exchange.statusCode, equalTo(HttpStatus.OK))
+    }
+
+    @Test
+    fun getGroupNamesCallsGetGroups() {
+        val report =  ObjectMother.report()
+        testRestTemplate.exchange("/reports/abc123", HttpMethod.POST, HttpEntity(report, headers), String::class.java )
+        testRestTemplate.exchange("/reports/def456", HttpMethod.POST, HttpEntity(report, headers), String::class.java )
+
+        testRestTemplate.exchange("/reports/groups", HttpMethod.GET, HttpEntity(null, headers), object : ParameterizedTypeReference<List<ReportDisplay>>() {})
+        Mockito.verify(reportService).getGroups()
+    }
+
 }

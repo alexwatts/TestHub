@@ -23,7 +23,7 @@ class VolumeBasedReportRepositoryTest() {
     @Autowired
     lateinit var volumeBasedReportRepository: VolumeBasedReportRepository
 
-    val partition = "testPartition"
+    val group = "testGroup"
     val now = Instant.parse("2020-05-20T09:00:00Z")
     val later = Instant.parse("2020-05-20T09:30:00Z")
     val muchLater = Instant.parse("2025-05-20T09:30:00Z")
@@ -33,41 +33,41 @@ class VolumeBasedReportRepositoryTest() {
         ReportData(
             now,
             "{some: Json}",
-            "testPartition")
+            "testGroup")
 
     @Test
     fun savedReportIsWritten() {
         volumeBasedReportRepository.create(reportData)
         val savedReport = volumeBasedReportRepository.getBefore(later)
-        assertThat(savedReport.get(partition)?.firstOrNull(), equalTo(reportData))
+        assertThat(savedReport.get(group)?.firstOrNull(), equalTo(reportData))
     }
 
     @Test
     fun saveAndFindReportBeforeIsEmpty() {
         volumeBasedReportRepository.create(reportData)
         val savedReport = volumeBasedReportRepository.getBefore(earlier)
-        assertThat(savedReport[partition], `is`(nullValue()))
+        assertThat(savedReport[group], `is`(nullValue()))
     }
 
     @Test
     fun saveAndFindReportAfter() {
         volumeBasedReportRepository.create(reportData)
         val savedReport = volumeBasedReportRepository.getAfter(earlier)
-        assertThat(savedReport.get(partition)?.firstOrNull(), equalTo(reportData))
+        assertThat(savedReport.get(group)?.firstOrNull(), equalTo(reportData))
     }
 
     @Test
     fun saveAndFindReportAfterIsEmpty() {
         volumeBasedReportRepository.create(reportData)
         val savedReport = volumeBasedReportRepository.getAfter(muchLater)
-        assertThat(savedReport[partition], `is`(nullValue()))
+        assertThat(savedReport[group], `is`(nullValue()))
     }
 
     @Test
-    fun saveAndDeletePartition() {
+    fun saveAndDeleteGroup() {
         volumeBasedReportRepository.create(reportData)
-        volumeBasedReportRepository.delete(partition)
+        volumeBasedReportRepository.delete(group)
         val savedReport = volumeBasedReportRepository.getBefore(later)
-        assertThat(savedReport[partition]?.firstOrNull(), nullValue())
+        assertThat(savedReport[group]?.firstOrNull(), nullValue())
     }
 }

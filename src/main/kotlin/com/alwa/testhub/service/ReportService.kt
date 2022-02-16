@@ -27,13 +27,19 @@ class ReportService(
             .flatten()
         )
 
+    fun delete(group: String) = reportRepository.delete(group)
+
+    fun getGroups() =
+        reportRepository.getAfter(window())
+            .map { it.value }
+            .flatten()
+            .map { it.group }.distinct()
+
     private fun groupsOrDefault(groups: Array<String>?) =
         when (groups?.size) {
             0    -> listOf("default")
             else -> groups?.toList()
         } ?: listOf("default")
-
-    fun delete(group: String) = reportRepository.delete(group)
 
     private fun window() =
         clock.instant().minus(5, ChronoUnit.DAYS)

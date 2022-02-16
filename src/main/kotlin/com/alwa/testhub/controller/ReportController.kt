@@ -26,7 +26,8 @@ class ReportController(val reportService: ReportService) {
         produces = ["application/json"],
         method = [RequestMethod.GET]
     )
-    fun getReportDisplay(@RequestParam(name = "groups", required = false) groups: Array<String>?):
+    fun getReportDisplay(
+        @RequestParam(name = "groups", required = false) groups: Array<String>?):
             ResponseEntity<List<ReportDisplay>> =
         ResponseEntity(reportService.getReports(groups), HttpStatus.OK)
 
@@ -36,4 +37,14 @@ class ReportController(val reportService: ReportService) {
     )
     fun deleteGroup(@PathVariable("group") group: String) =
         reportService.delete(group)
+
+    @ResponseBody
+    @RequestMapping(
+        value = ["/groups"],
+        produces = ["application/json"],
+        method = [RequestMethod.GET]
+    )
+    fun getGroups(): ResponseEntity<List<String>> =
+        ResponseEntity(reportService.getGroups(), HttpStatus.OK)
+
 }
