@@ -37,9 +37,11 @@ class ReportService(
 
     private fun groupsOrDefault(groups: Array<String>?) =
         when (groups?.size) {
-            0    -> listOf("default")
+            0    -> defaultGroup()
             else -> groups?.toList()
-        } ?: listOf("default")
+        } ?: defaultGroup()
+
+    private fun defaultGroup() = listOf("default")
 
     private fun window() =
         clock.instant().minus(5, ChronoUnit.DAYS)
