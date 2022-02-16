@@ -54,7 +54,7 @@ pipeline {
               }
               container('gradle') {
                   sh 'cp -r /cache /home/gradle/.gradle'
-                  sh "gradle clean build -p TestHub"
+                  sh "gradle clean build -p TestHub --info"
               }
             }
         }

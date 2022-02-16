@@ -147,7 +147,7 @@ class ReportControllerIntegrationTest {
             HttpEntity(null, headers),
             object : ParameterizedTypeReference<List<String>>() {})
 
-        assertThat(groups.body, equalTo(listOf("abc123", "def456")))
+        assertThat(groups.body, equalTo(listOf("aabc123", "def456")))
     }
 
     private fun cleanupGroups(vararg groups: String) {
@@ -158,7 +158,6 @@ class ReportControllerIntegrationTest {
 
             }
         }
-
     }
 
 }
