@@ -40,7 +40,7 @@ pipeline {
             steps {
               container('gradle') {
                   sh 'cp -r /cache /home/gradle/.gradle'
-                  sh "gradle pitest -p TestHub --info"
+                  sh "gradle build pitest -p TestHub --info"
               }
             }
         }
