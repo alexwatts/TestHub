@@ -19,7 +19,7 @@ spec:
           imagePullPolicy: "Always"
           env:
             - name: JAVA_OPTS
-              value: -Xmx64m
+              value: -Xmx128m
           ports:
             - name: http-port
               containerPort: 8080
@@ -28,9 +28,9 @@ spec:
               mountPath: /var/results
           resources:
             limits:
-              memory: "128Mi"
+              memory: "256Mi"
             requests:
-              memory: "128Mi"
+              memory: "256Mi"
       initContainers:
         - name: testhub-data-permission-fix
           image: busybox
