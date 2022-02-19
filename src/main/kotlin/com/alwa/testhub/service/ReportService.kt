@@ -22,8 +22,8 @@ class ReportService(
 
     fun getReports(groups: List<String>) =
         when(groups) {
-            listOf(DEFAULT_GROUP) -> listOf(allReports())
-            else                  -> groupedReports(groups)
+            listOf(DEFAULT_GROUP) -> listOf(allReports(reportRepository.getAfter(window())))
+            else                  -> groupedReports(groups, reportRepository.getAfter(window()))
         }
 
     fun delete(group: String) = reportRepository.delete(group)
@@ -34,21 +34,21 @@ class ReportService(
             .flatten()
             .map { it.group }.distinct()
 
-    private fun allReports() =
+    private fun allReports(reports: Map<String, List<ReportData>>) =
         ResultDisplay().displayResults(
             DEFAULT_GROUP,
-            reportRepository.getAfter(window())
+            reports
                 .values
                 .flatten()
                 .map { reportBuilder.parseTestResults(it) }
                 .flatten()
         )
 
-    private fun groupedReports(groups: List<String>) =
+    private fun groupedReports(groups: List<String>, reports: Map<String, List<ReportData>>) =
         groups.map { group ->
             ResultDisplay().displayResults(
                 group,
-                reportRepository.getAfter(window())
+                reports
                     .values
                     .flatten()
                     .map { reportBuilder.parseTestResults(it).groupFilter(group) }
@@ -60,5 +60,5 @@ class ReportService(
         clock.instant().minus(5, ChronoUnit.DAYS)
 
     private fun List<TestResult>.groupFilter(group: String) =
-        this.filter { group == "default" || it.group == group }
+        this.filter { group == DEFAULT_GROUP || it.group == group }
 }
