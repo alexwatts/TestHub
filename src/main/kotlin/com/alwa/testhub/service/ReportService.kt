@@ -1,7 +1,9 @@
 package com.alwa.testhub.service
 
+import com.alwa.testhub.controller.Parameters.DEFAULT_GROUP
 import com.alwa.testhub.display.ResultDisplay
 import com.alwa.testhub.domain.ReportData
+import com.alwa.testhub.domain.TestResult
 import com.alwa.testhub.report.ReportParser
 import com.alwa.testhub.repository.ReportRepository
 import org.springframework.stereotype.Service
@@ -19,13 +21,10 @@ class ReportService(
     }
 
     fun getReports(groups: List<String>) =
-        ResultDisplay(groups).displayResults(
-            reportRepository.getAfter(window())
-            .values
-            .flatten()
-            .map { reportBuilder.parseTestResults(it) }
-            .flatten()
-        )
+        when(groups) {
+            listOf(DEFAULT_GROUP) -> listOf(allReports())
+            else                  -> groupedReports(groups)
+        }
 
     fun delete(group: String) = reportRepository.delete(group)
 
@@ -35,6 +34,31 @@ class ReportService(
             .flatten()
             .map { it.group }.distinct()
 
+    private fun allReports() =
+        ResultDisplay().displayResults(
+            DEFAULT_GROUP,
+            reportRepository.getAfter(window())
+                .values
+                .flatten()
+                .map { reportBuilder.parseTestResults(it) }
+                .flatten()
+        )
+
+    private fun groupedReports(groups: List<String>) =
+        groups.map { group ->
+            ResultDisplay().displayResults(
+                group,
+                reportRepository.getAfter(window())
+                    .values
+                    .flatten()
+                    .map { reportBuilder.parseTestResults(it).groupFilter(group) }
+                    .flatten()
+            )
+        }
+
     private fun window() =
         clock.instant().minus(5, ChronoUnit.DAYS)
+
+    private fun List<TestResult>.groupFilter(group: String) =
+        this.filter { group == "default" || it.group == group }
 }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping(value = ["/reports"])
-class ReportController(val reportService: ReportService) {
+class ReportController(private val reportService: ReportService) {
 
     @RequestMapping(
         value = ["{group}"],

@@ -6,15 +6,13 @@ import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
-class ResultDisplay(private val groups: List<String>) {
+class ResultDisplay() {
 
-    fun displayResults(results: List<TestResult>) =
-        groups.map { group ->
-                ReportDisplay(group,
-                buildHeaderRow(results.groupFilter(group)) +
-                      buildTestRows(results.groupFilter(group))
-                )
-        }
+    fun displayResults(displayName: String,  results: List<TestResult>) =
+        ReportDisplay(displayName,
+        buildHeaderRow(results) +
+              buildTestRows(results)
+        )
 
     private fun buildHeaderRow(results: List<TestResult>) =
         listOf(Row("header", buildHeaderColumns(results)))
@@ -71,8 +69,5 @@ class ResultDisplay(private val groups: List<String>) {
     private fun formatter(): DateTimeFormatter =
         DateTimeFormatter.ISO_LOCAL_DATE_TIME
             .withZone(ZoneId.from(ZoneOffset.UTC))
-
-    private fun List<TestResult>.groupFilter(group: String) =
-        this.filter { group == "default" || it.group == group }
 
 }
