@@ -49,16 +49,7 @@ pipeline {
               container('gradle') {
                 pitmutation minimumKillRatio: 80.0, mutationStatsFile: 'TestHub/build/reports/pitest/mutations.xml'
 
-                publish html
-                    publishHTML target: [
-                        allowMissing: false,
-                        alwaysLinkToLastBuild: false,
-                        keepAll: true,
-                        reportDir: 'TestHub/build/reports/pitest',
-                        reportFiles: 'index.html',
-                        reportName: 'Mutation Report'
-                      ]
-
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'TestHub/build/reports/pitest', reportFiles: 'index.html', reportName: 'Mutation Report', reportTitles: 'PIT Report'])
               }
             }
         }
