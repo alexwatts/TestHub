@@ -18,8 +18,8 @@ class ReportService(
         reportRepository.create(ReportData(clock.instant(), reportData, group))
     }
 
-    fun getReports(groups: Array<String>?) =
-        ResultDisplay(groupsOrDefault(groups)).displayResults(
+    fun getReports(groups: List<String>) =
+        ResultDisplay(groups).displayResults(
             reportRepository.getAfter(window())
             .values
             .flatten()
@@ -34,14 +34,6 @@ class ReportService(
             .map { it.value }
             .flatten()
             .map { it.group }.distinct()
-
-    private fun groupsOrDefault(groups: Array<String>?) =
-        when (groups?.size) {
-            0    -> defaultGroup()
-            else -> groups?.toList()
-        } ?: defaultGroup()
-
-    private fun defaultGroup() = listOf("default")
 
     private fun window() =
         clock.instant().minus(5, ChronoUnit.DAYS)

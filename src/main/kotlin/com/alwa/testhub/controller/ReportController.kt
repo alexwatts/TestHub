@@ -29,7 +29,12 @@ class ReportController(val reportService: ReportService) {
     fun getReportDisplay(
         @RequestParam(name = "groups", required = false) groups: Array<String>?):
             ResponseEntity<List<ReportDisplay>> =
-        ResponseEntity(reportService.getReports(groups), HttpStatus.OK)
+        ResponseEntity(
+            reportService.getReports(
+                Parameters.groupsOrDefault(groups)
+            ),
+            HttpStatus.OK
+        )
 
     @RequestMapping(
         value = ["{group}"],

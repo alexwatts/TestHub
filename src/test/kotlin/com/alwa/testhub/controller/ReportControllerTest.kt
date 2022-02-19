@@ -72,13 +72,13 @@ class ReportControllerTest {
     @Test
     fun getReportsGetsReports() {
         testRestTemplate.exchange("/reports", HttpMethod.GET, HttpEntity(null, headers), String::class.java )
-        Mockito.verify(reportService).getReports(null)
+        Mockito.verify(reportService).getReports(listOf("default"))
     }
 
     @Test
     fun getReportsGetsReportsWithGroupsParam() {
         testRestTemplate.exchange("/reports?groups=group1,group2", HttpMethod.GET, HttpEntity(null, headers), String::class.java )
-        Mockito.verify(reportService).getReports(arrayOf("group1", "group2"))
+        Mockito.verify(reportService).getReports(listOf("group1", "group2"))
     }
 
     @Test

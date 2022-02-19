@@ -75,5 +75,4 @@ class ResultDisplay(private val groups: List<String>) {
     private fun List<TestResult>.groupFilter(group: String) =
         this.filter { group == "default" || it.group == group }
 
-
 }
