@@ -6,7 +6,7 @@ import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
-class ResultDisplay() {
+class ResultDisplay {
 
     fun displayResults(displayName: String,  results: List<TestResult>) =
         ReportDisplay(displayName,

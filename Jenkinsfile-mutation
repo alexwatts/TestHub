@@ -1,5 +1,4 @@
 pipeline {
-
     agent {
         kubernetes{
             yaml '''
@@ -48,7 +47,6 @@ pipeline {
             steps {
               container('gradle') {
                 pitmutation minimumKillRatio: 80.0, mutationStatsFile: 'TestHub/build/reports/pitest/mutations.xml'
-
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'TestHub/build/reports/pitest', reportFiles: 'index.html', reportName: 'Mutation Report', reportTitles: 'PIT Report'])
               }
             }
