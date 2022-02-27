@@ -27,11 +27,11 @@ class ReportController(private val reportService: ReportService) {
         method = [RequestMethod.GET]
     )
     fun getReportDisplay(
-        @RequestParam(name = "groups", required = false) groups: Array<String>?):
+        @RequestParam(name = "groups", required = false) groups: List<String>?):
             ResponseEntity<List<ReportDisplay>> =
         ResponseEntity(
             reportService.getReports(
-                Parameters.groupsOrDefault(groups)
+                groups
             ),
             HttpStatus.OK
         )

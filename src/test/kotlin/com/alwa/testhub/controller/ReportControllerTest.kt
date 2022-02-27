@@ -72,7 +72,7 @@ class ReportControllerTest {
     @Test
     fun getReportsGetsReports() {
         testRestTemplate.exchange("/reports", HttpMethod.GET, HttpEntity(null, headers), String::class.java )
-        Mockito.verify(reportService).getReports(listOf("default"))
+        Mockito.verify(reportService).getReports(null)
     }
 
     @Test

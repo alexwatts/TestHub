@@ -1,6 +1,5 @@
 package com.alwa.testhub.service
 
-import com.alwa.testhub.controller.Parameters.DEFAULT_GROUP
 import com.alwa.testhub.display.ResultDisplay
 import com.alwa.testhub.domain.ReportData
 import com.alwa.testhub.domain.TestResult
@@ -20,10 +19,11 @@ class ReportService(
         reportRepository.create(ReportData(clock.instant(), reportData, group))
     }
 
-    fun getReports(groups: List<String>) =
-        when(groups.contains(DEFAULT_GROUP)) {
-            true -> allReports()
-            else -> groupedReports(groups)
+    fun getReports(groups: List<String>?) =
+        when(groups?.isEmpty()) {
+            null  -> allReports()
+            true  -> allReports()
+            false -> groupedReports(groups)
         }
 
     fun delete(group: String) = reportRepository.delete(group)
@@ -37,7 +37,7 @@ class ReportService(
     private fun allReports() =
         listOf(
             ResultDisplay().displayResults(
-                DEFAULT_GROUP,
+                "default",
                 reportRepository.getAfter(window())
                     .values
                     .flatten()
@@ -62,6 +62,6 @@ class ReportService(
         clock.instant().minus(5, ChronoUnit.DAYS)
 
     private fun List<TestResult>.groupFilter(group: String) =
-        this.filter { group == DEFAULT_GROUP || it.group == group }
+        this.filter { it.group == group }
 
 }
