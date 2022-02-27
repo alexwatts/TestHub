@@ -21,9 +21,9 @@ class ReportService(
     }
 
     fun getReports(groups: List<String>) =
-        when(groups) {
-            listOf(DEFAULT_GROUP) -> listOf(allReports(reportRepository.getAfter(window())))
-            else                  -> groupedReports(groups, reportRepository.getAfter(window()))
+        when(groups.contains(DEFAULT_GROUP)) {
+            true -> allReports()
+            else -> groupedReports(groups)
         }
 
     fun delete(group: String) = reportRepository.delete(group)
@@ -34,21 +34,23 @@ class ReportService(
             .flatten()
             .map { it.group }.distinct()
 
-    private fun allReports(reports: Map<String, List<ReportData>>) =
-        ResultDisplay().displayResults(
-            DEFAULT_GROUP,
-            reports
-                .values
-                .flatten()
-                .map { reportBuilder.parseTestResults(it) }
-                .flatten()
+    private fun allReports() =
+        listOf(
+            ResultDisplay().displayResults(
+                DEFAULT_GROUP,
+                reportRepository.getAfter(window())
+                    .values
+                    .flatten()
+                    .map { reportBuilder.parseTestResults(it) }
+                    .flatten()
+            )
         )
 
-    private fun groupedReports(groups: List<String>, reports: Map<String, List<ReportData>>) =
+    private fun groupedReports(groups: List<String>) =
         groups.map { group ->
             ResultDisplay().displayResults(
                 group,
-                reports
+                reportRepository.getAfter(window())
                     .values
                     .flatten()
                     .map { reportBuilder.parseTestResults(it).groupFilter(group) }
