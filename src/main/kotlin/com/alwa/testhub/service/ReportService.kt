@@ -61,4 +61,5 @@ class ReportService(
 
     private fun List<TestResult>.groupFilter(group: String) =
         this.filter { group == DEFAULT_GROUP || it.group == group }
+
 }

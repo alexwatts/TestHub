@@ -9,9 +9,9 @@ import java.time.format.DateTimeFormatter
 class ResultDisplay {
 
     fun displayResults(displayName: String,  results: List<TestResult>) =
-        ReportDisplay(displayName,
-        buildHeaderRow(results) +
-              buildTestRows(results)
+        ReportDisplay(
+            displayName,
+            buildHeaderRow(results) + buildTestRows(results)
         )
 
     private fun buildHeaderRow(results: List<TestResult>) =

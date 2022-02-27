@@ -19,7 +19,7 @@ class VolumeBasedReportRepository: ReportRepository {
     lateinit var rootPath: String
 
     override fun create(reportData: ReportData) {
-        writeReport(reportData.report, createReportFilePath(reportData))
+        writeReportToPath(reportData.report, createReportFilePath(reportData))
     }
 
     override fun getBefore(before: Instant) =
@@ -56,9 +56,9 @@ class VolumeBasedReportRepository: ReportRepository {
     private fun createReportDirectory(directory: String) =
         Files.createDirectories(Path.of(directory))
 
-    private fun writeReport(report: String, reportDirectorPath: Path) {
+    private fun writeReportToPath(report: String, reportDirectoryPath: Path) {
         Files.write(
-            reportDirectorPath,
+            reportDirectoryPath,
             report.toByteArray()
         )
     }
