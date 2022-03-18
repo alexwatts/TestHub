@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
 @ConditionalOnProperty("report.cucumber.parser", havingValue="simple")
 class SimpleCucumberReportParser: ReportParser {
 
-    override fun parseTestResults(reportData: ReportData): List<TestResult> =
+    override fun parseTestResults(reportData: ReportData) =
         readTestNames(reportData)
             .map {
                 TestResult(
@@ -23,14 +23,6 @@ class SimpleCucumberReportParser: ReportParser {
                     reportData.group
                 )
             }
-
-    private fun jsonPathTestNames() = "\$.[*].elements.[*].name"
-
-    private fun jsonPathFailedTests(testName: String) =
-        "\$.[*].elements.[*].[?(@.name=='${testName}')].steps.[*].result[?(@.status=='failed')]"
-
-    private fun jsonPathScreenShot(testName: String) =
-        "\$.[*].elements.[*].[?(@.name=='${testName}')].after.[*].embeddings[?(@.name=='screenshot')]"
 
     private fun readTestNames(reportData: ReportData) =
         JsonPath.read<JSONArray>(reportData.report, jsonPathTestNames())
@@ -44,5 +36,12 @@ class SimpleCucumberReportParser: ReportParser {
             .map { ScreenShot(it["mime_type"] as String, it["data"] as String) }
             .firstOrNull()
 
-}
+    private fun jsonPathTestNames() = "\$.[*].elements.[*].name"
 
+    private fun jsonPathFailedTests(testName: String) =
+        "\$.[*].elements.[*].[?(@.name=='${testName}')].steps.[*].result[?(@.status=='failed')]"
+
+    private fun jsonPathScreenShot(testName: String) =
+        "\$.[*].elements.[*].[?(@.name=='${testName}')].after.[*].embeddings[?(@.name=='screenshot')]"
+
+}

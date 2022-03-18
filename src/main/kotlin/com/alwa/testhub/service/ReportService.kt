@@ -15,9 +15,8 @@ class ReportService(
     private val clock: Clock,
     private val reportBuilder: ReportParser) {
 
-    fun createReport(reportData: String, group: String) {
+    fun createReport(reportData: String, group: String) =
         reportRepository.create(ReportData(clock.instant(), reportData, group))
-    }
 
     fun getReports(groups: List<String>?) =
         when(groups?.isEmpty()) {
@@ -47,15 +46,16 @@ class ReportService(
         )
 
     private fun groupedReports(groups: List<String>) =
-        groups.map { group ->
-            ResultDisplay().displayResults(
-                group,
-                reportRepository.getAfter(window())
-                    .values
-                    .flatten()
-                    .map { reportBuilder.parseTestResults(it).groupFilter(group) }
-                    .flatten()
-            )
+        groups.map {
+            group ->
+                ResultDisplay().displayResults(
+                    group,
+                    reportRepository.getAfter(window())
+                        .values
+                        .flatten()
+                        .map { reportBuilder.parseTestResults(it).groupFilter(group) }
+                        .flatten()
+                )
         }
 
     private fun window() =

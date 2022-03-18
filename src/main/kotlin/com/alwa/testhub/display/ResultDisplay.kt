@@ -34,8 +34,8 @@ class ResultDisplay {
         testName: TestResult,
         results: List<TestResult>) =
             results
-                .partition { it.name == testName.name }.first
-                .groupBy { it.reportTime }[testRun]
+                .filter { it.name == testName.name }
+                .find { it.reportTime == testRun }
 
     private fun buildHeaderColumns(results: List<TestResult>) =
         results
@@ -43,14 +43,8 @@ class ResultDisplay {
             .sortedByDescending { it.reportTime }
             .map { Column(formatDate(it.reportTime), null) }
 
-    private fun toColumn(testResults: List<TestResult>?): Column =
-         testResults
-            ?.map { displayValue(testResults) }
-            ?.firstOrNull()
-            ?: Column("empty", null)
-
-    private fun displayValue(testResult: List<TestResult>?) =
-        testResult.let { result -> result?.map { displayColumn(it) }}?.firstOrNull()
+    private fun toColumn(testResult: TestResult?): Column =
+       testResult?.let { displayColumn(it) } ?: Column("empty", null)
 
     private fun displayColumn(testResult: TestResult) =
         if (testResult.success) passedColumn(testResult) else failedColumn(testResult)
