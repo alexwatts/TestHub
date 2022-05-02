@@ -20,7 +20,6 @@ There is a jenkins job that is doing that into a staging for the UI and backend 
 ```
 username: testhub
 password: contributor
-
 ```
 
 
