@@ -4,7 +4,7 @@ This is the back end for TestHub. It supports the receiving of test reports from
 
 You can find the front end code [Here](https://github.com/alexwatts/TestHubUI)
 
-There is a staging version of the UI and backend deployed [Here](http://142.93.32.151:30001/)
+There is a staging version of the UI and backend deployed [Here](http://209.97.139.117:30001/)
 
 ## Getting Started
 
@@ -15,7 +15,7 @@ gradle bootRun --args='--spring.profiles.active=local'
 ```
 
 There is a kubernetes stateful set and a service template that you can use to deploy a dockerised image of TestHub.
-There is a jenkins job that is doing that into a staging for the UI and backend [Here](http://142.93.32.151:30000/) It's named TestHub-pipeline. Access with below Credentials.
+There is a jenkins job that is doing that into a staging for the UI and backend [Here](http://209.97.139.117:30000/) It's named TestHub-pipeline. Access with below Credentials.
 
 ```
 username: testhub
