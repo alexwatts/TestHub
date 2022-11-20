@@ -20,7 +20,9 @@ class SimpleCucumberReportParser: ReportParser {
                     reportData.time,
                     testIsSuccess(reportData, it),
                     testScreenShot(reportData, it),
-                    reportData.group
+                    reportData.group,
+                    emptyList(),
+                    emptyList()
                 )
             }
 

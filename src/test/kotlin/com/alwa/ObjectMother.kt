@@ -126,6 +126,41 @@ object ObjectMother {
         ]
     """.trimIndent()
 
+    fun cypressReport() =
+        """<?xml version="1.0"?>
+            <testsuites failures="2" errors="0" tests="49">
+              <testsuite name="Trends View Filtering Functionality" timestamp="2022-06-24T14:20:13" tests="9" time="97.2080" failures="0">
+                <testcase name="Sidebar Functionality" time="24.8620" classname="Discovery board filter buttons present"/>
+               </testsuite>
+            </testsuites>
+        """.trimIndent()
+
+    fun failedCypressReport() =
+        """<?xml version="1.0"?>
+            <testsuites failures="2" errors="0" tests="49">
+              <testsuite name="Trends View Grid Functionality" timestamp="2022-06-24T14:22:18" tests="10" time="2.3780" failures="1">
+                <testcase name="Sidebar Functionality" time="2.3780" classname="&quot;before each&quot; hook for &quot;Shows expected trends&quot;">
+                  <failure message="failed"></failure>
+                </testcase>
+              </testsuite>
+            </testsuites>
+        """.trimIndent()
+
+    fun failedCypressReportWithProperty() =
+        """<?xml version="1.0"?>
+            <testsuites failures="2" errors="0" tests="49">
+              <testsuite name="Trends View Grid Functionality" timestamp="2022-06-24T14:22:18" tests="10" time="2.3780" failures="1">
+                <properties>
+                  <property name="BUILD_ID" value="4291"/>
+                </properties>
+                <testcase name="Sidebar Functionality" time="2.3780" classname="&quot;before each&quot; hook for &quot;Shows expected trends&quot;">
+                  <failure message="failed"></failure>
+                </testcase>
+              </testsuite>
+            </testsuites>
+        """.trimIndent()
+
+
     fun threeTestsThreeRuns() : List<TestResult> {
         val runOneTiming = "2020-05-20T09:00:00Z"
         val runTwoTiming = "2020-05-20T09:16:00Z"
@@ -136,16 +171,16 @@ object ObjectMother {
         val test3 = "test3"
 
         return listOf(
-            TestResult(test1, Instant.parse(runOneTiming), true, null, "default"),
-            TestResult(test2, Instant.parse(runOneTiming), false, null, "default"),
-            TestResult(test3, Instant.parse(runOneTiming), true, null, "default"),
+            TestResult(test1, Instant.parse(runOneTiming), true, null, "default", emptyList(), emptyList()),
+            TestResult(test2, Instant.parse(runOneTiming), false, null, "default", emptyList(), emptyList()),
+            TestResult(test3, Instant.parse(runOneTiming), true, null, "default", emptyList(), emptyList()),
 
-            TestResult(test2, Instant.parse(runTwoTiming), false, null, "default"),
-            TestResult(test3, Instant.parse(runTwoTiming), true, null, "default"),
+            TestResult(test2, Instant.parse(runTwoTiming), false, null, "default", emptyList(), emptyList()),
+            TestResult(test3, Instant.parse(runTwoTiming), true, null, "default", emptyList(), emptyList()),
 
-            TestResult(test1, Instant.parse(runThreeTiming), false, null, "default"),
-            TestResult(test2, Instant.parse(runThreeTiming), false, null, "default"),
-            TestResult(test3, Instant.parse(runThreeTiming), false, null, "default"),
+            TestResult(test1, Instant.parse(runThreeTiming), false, null, "default", emptyList(), emptyList()),
+            TestResult(test2, Instant.parse(runThreeTiming), false, null, "default", emptyList(), emptyList()),
+            TestResult(test3, Instant.parse(runThreeTiming), false, null, "default", emptyList(), emptyList()),
         )
     }
 
@@ -153,17 +188,35 @@ object ObjectMother {
         val runOneTiming = "2020-05-20T09:00:00Z"
         val test1 = "test1"
         return listOf(
-            TestResult(test1, Instant.parse(runOneTiming), true, ScreenShot("mime/type", "htQWEC6543"), "default"))
+            TestResult(test1, Instant.parse(runOneTiming), true, ScreenShot("mime/type", "htQWEC6543"), "default", emptyList(), emptyList()))
 
     }
+
+    fun singleRunWithMessage() : List<TestResult> {
+        val runOneTiming = "2020-05-20T09:00:00Z"
+        val test1 = "test1"
+        return listOf(
+            TestResult(test1, Instant.parse(runOneTiming), false, ScreenShot("mime/type", "htQWEC6543"), "default", listOf("message"), emptyList()))
+
+    }
+
+    fun singleRunWithProperties() : List<TestResult> {
+        val runOneTiming = "2020-05-20T09:00:00Z"
+        val test1 = "test1"
+        return listOf(
+            TestResult(test1, Instant.parse(runOneTiming), false, ScreenShot("mime/type", "htQWEC6543"), "default", listOf("message"),  listOf(Property("BUILD_ID", "4928")))
+        )
+
+    }
+
 
     fun displayReport(
         testName: String, testRun: Instant) =
         ReportDisplay(
             "default",
             listOf(
-                Row("header", listOf(Column(formatter.format(testRun), null))),
-                Row(testName, listOf(Column("passed", Image("screenshot", "gif;base64", "guehnfdsaghl545423hbkj34lknb5hk34"))))
+                Row("header", listOf(Column(formatter.format(testRun), null, emptyList(), emptyList()))),
+                Row(testName, listOf(Column("passed", Image("screenshot", "gif;base64", "guehnfdsaghl545423hbkj34lknb5hk34"), emptyList(), emptyList())))
             )
         )
 
@@ -179,14 +232,14 @@ object ObjectMother {
             listOf(
                 Row("header",
                     listOf(
-                        Column(ObjectMother.formatter.format(Instant.parse("2021-11-20T09:01:00Z")), null),
-                        Column(ObjectMother.formatter.format(Instant.parse("2021-11-20T09:00:00Z")), null)
+                        Column(ObjectMother.formatter.format(Instant.parse("2021-11-20T09:01:00Z")), null, emptyList(), emptyList()),
+                        Column(ObjectMother.formatter.format(Instant.parse("2021-11-20T09:00:00Z")), null, emptyList(), emptyList())
                     )
                 ),
                 Row("Test Example",
                     listOf(
-                        Column("passed", Image("screenshot", "gif;base64", "guehnfdsaghl545423hbkj34lknb5hk34")),
-                        Column("passed", Image("screenshot", "gif;base64", "guehnfdsaghl545423hbkj34lknb5hk34"))
+                        Column("passed", Image("screenshot", "gif;base64", "guehnfdsaghl545423hbkj34lknb5hk34"), emptyList(), emptyList()),
+                        Column("passed", Image("screenshot", "gif;base64", "guehnfdsaghl545423hbkj34lknb5hk34"), emptyList(), emptyList())
                     )
                 )
             )
@@ -198,12 +251,12 @@ object ObjectMother {
             listOf(
                 Row("header",
                     listOf(
-                        Column(ObjectMother.formatter.format(Instant.parse("2021-11-20T09:00:00Z")), null)
+                        Column(ObjectMother.formatter.format(Instant.parse("2021-11-20T09:00:00Z")), null, emptyList(), emptyList())
                     )
                 ),
                 Row("Test One",
                     listOf(
-                        Column("passed", Image("screenshot", "gif;base64", "guehnfdsaghl545423hbkj34lknb5hk34")),
+                        Column("passed", Image("screenshot", "gif;base64", "guehnfdsaghl545423hbkj34lknb5hk34"), emptyList(), emptyList()),
                     )
                 )
             )
@@ -215,12 +268,12 @@ object ObjectMother {
             listOf(
                 Row("header",
                     listOf(
-                        Column(ObjectMother.formatter.format(Instant.parse("2021-11-20T09:01:00Z")), null)
+                        Column(ObjectMother.formatter.format(Instant.parse("2021-11-20T09:01:00Z")), null, emptyList(), emptyList())
                     )
                 ),
                 Row("Test Two",
                     listOf(
-                        Column("passed", Image("screenshot", "gif;base64", "guehnfdsaghl545423hbkj34lknb5hk34")),
+                        Column("passed", Image("screenshot", "gif;base64", "guehnfdsaghl545423hbkj34lknb5hk34"), emptyList(), emptyList()),
                     )
                 )
             )

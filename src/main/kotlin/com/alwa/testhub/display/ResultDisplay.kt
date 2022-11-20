@@ -41,19 +41,19 @@ class ResultDisplay {
         results
             .distinctBy { it.reportTime }
             .sortedByDescending { it.reportTime }
-            .map { Column(formatDate(it.reportTime), null) }
+            .map { Column(formatDate(it.reportTime), null, emptyList(), emptyList()) }
 
     private fun toColumn(testResult: TestResult?): Column =
-       testResult?.let { displayColumn(it) } ?: Column("empty", null)
+       testResult?.let { displayColumn(it) } ?: Column("empty", null, emptyList(), emptyList())
 
     private fun displayColumn(testResult: TestResult) =
         if (testResult.success) passedColumn(testResult) else failedColumn(testResult)
 
     private fun passedColumn(testResult: TestResult) =
-        Column("passed", testResult.imageOrNull())
+        Column("passed", testResult.imageOrNull(), emptyList(), emptyList())
 
     private fun failedColumn(testResult: TestResult) =
-        Column("failed", testResult.imageOrNull())
+        Column("failed", testResult.imageOrNull(), testResult.messages, testResult.properties)
 
     private fun TestResult.imageOrNull() =
        this.screenShot?.let { Image("screenshot", it.mimeType, it.data) }
