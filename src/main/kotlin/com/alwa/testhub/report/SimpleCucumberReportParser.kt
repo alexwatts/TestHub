@@ -5,11 +5,7 @@ import com.alwa.testhub.domain.ScreenShot
 import com.alwa.testhub.domain.TestResult
 import com.jayway.jsonpath.JsonPath
 import net.minidev.json.JSONArray
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
-import org.springframework.stereotype.Service
 
-@Service
-@ConditionalOnProperty("report.cucumber.parser", havingValue="simple")
 class SimpleCucumberReportParser: ReportParser {
 
     override fun parseTestResults(reportData: ReportData) =

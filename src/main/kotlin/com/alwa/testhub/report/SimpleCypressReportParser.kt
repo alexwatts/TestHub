@@ -3,16 +3,12 @@ package com.alwa.testhub.report
 import com.alwa.testhub.domain.Property
 import com.alwa.testhub.domain.ReportData
 import com.alwa.testhub.domain.TestResult
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
-import org.springframework.stereotype.Service
 import org.xml.sax.InputSource
 import java.io.StringReader
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.xpath.XPathFactory
 import javax.xml.xpath.XPathNodes
 
-@Service
-@ConditionalOnProperty("report.cypress.parser", havingValue="simple")
 class SimpleCypressReportParser: ReportParser {
 
     override fun parseTestResults(reportData: ReportData): List<TestResult> =
@@ -70,6 +66,5 @@ class SimpleCypressReportParser: ReportParser {
 
     private fun testHasProperties(reportData: ReportData) =
         (XPathFactory.newInstance().newXPath().evaluateExpression(xPathProperties(), readXml(reportData.report)).value() as XPathNodes).size() > 0
-
 
 }
