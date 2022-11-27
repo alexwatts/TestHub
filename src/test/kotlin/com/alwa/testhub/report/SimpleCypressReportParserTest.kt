@@ -31,7 +31,6 @@ class SimpleCypressReportParserTest {
 
     val expectedTestNames = listOf("Sidebar Functionality")
     val expectedReportTime = listOf(Instant.parse("2020-05-20T09:00:00Z"))
-    val PROPERTY_NAME = "BUILD_ID"
 
     @Test
     fun testNameIsSourcedFromReport() {
