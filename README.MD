@@ -15,7 +15,7 @@ gradle bootRun --args='--spring.profiles.active=local'
 ```
 
 There is a kubernetes stateful set and a service template that you can use to deploy a dockerised image of TestHub.
-There is a jenkins job that is doing that into a staging for the UI and backend [Here](http://139.59.172.253:30000/) It's named TestHub-pipeline. Access with below Credentials.
+There is a jenkins job that is doing that into a staging for the UI and backend [Here](http://206.189.116.189:30000/) It's named TestHub-pipeline. Access with below Credentials.
 
 ```
 username: testhub
