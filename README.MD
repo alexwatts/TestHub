@@ -4,7 +4,7 @@ This is the back end for TestHub. It supports the receiving of test reports from
 
 You can find the front end code [Here](https://github.com/alexwatts/TestHubUI)
 
-There is a staging version of the UI and backend deployed [Here](http://139.59.172.253:30001/)
+There is a staging version of the UI and backend deployed [Here](http://206.189.116.189:30001/)
 
 ## Getting Started
 
