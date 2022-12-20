@@ -1,8 +1,9 @@
 pipeline {
 
     agent {
-        label 'pool-fv2ocqhbe-mt9wx'
+        label
         kubernetes{
+            nodeSelector 'pool-fv2ocqhbe-mt9wx'
             yaml '''
                 apiVersion: v1
                 kind: Pod
