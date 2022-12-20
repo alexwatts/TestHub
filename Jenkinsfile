@@ -1,7 +1,6 @@
 pipeline {
 
     agent {
-        label
         kubernetes{
             nodeSelector 'pool-fv2ocqhbe-mt9wx'
             yaml '''
